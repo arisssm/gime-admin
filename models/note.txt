@@ -1,0 +1,4 @@
+Belajar Login Express JS
+1. Bcryptjs = library js untuk memberikan encrypy data
+2. contoh : chat what'sup
+3. 

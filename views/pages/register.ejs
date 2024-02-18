@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title><%= title%></title>
+    <!-- Custom fonts for this template-->
+    <link href="/sb2admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet" />
+    <!-- Favicon -->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Custom style for Admin -->
+    <link href="/stylesheets/style.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="/sb2admin/css/sb-admin-2.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-gradient-login">
+    <div class="container">
+        <div class="row-12 mt-5">
+            <% if (alert.message != '') { %>
+              <div class="alert alert-<%= alert.status %>" role="alert">
+                <%- alert.status == 'success' ?
+                `<i class="fa fa-check-square mr-2"></i>`:  
+                `<i class="fa fa-exclamation-triangle" ></i>`  
+                %>
+                <%= alert.message %>
+                <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button> -->
+              </div>
+            <% } %>
+          </div>
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                            </div>
+                            <form action="/register" method="post" class="user">
+                                <div class="form-group">
+                                    <label for="fullName">Full Name</label>
+                                    <input type="text" name="fullName" id="fullName" class="form-control name"
+                                        placeholder="ex: John XA" autocomplete="off"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" name="phone" id="phone" class="form-control telePhone" 
+                                    placeholder="ex: 081xxxxxxxx" autocomplete="off" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="text" name="email" id="email" class="form-control emailUser" 
+                                    placeholder="ex: email@yahoo.com" autocomplete="off"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" id="password" class="form-control passWord"
+                                    placeholder="ex: *must have min 8 character" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" name="username" id="username" class="form-control userName"
+                                    placeholder="ex: johnedy" autocomplete="off" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" name="id" id="id" class="id-user form-control">
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                    Register Now
+                                </button>
+                            </form>
+                            <hr />
+                            <div class="text-center">
+                                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="/login">Already have an account? Login!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="/sb2admin/vendor/jquery/jquery.min.js"></script>
+    <script src="/sb2admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/sb2admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/sb2admin/js/sb-admin-2.min.js"></script>
+</body>
+</html>

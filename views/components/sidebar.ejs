@@ -1,0 +1,91 @@
+<ul class="navbar-nav bg-gradient-sidebar sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon">
+            <img src="/images/logo.png" width="100vh"></img>
+        </div>
+        <div class="sidebar-brand-text mx-3"><sup>Inc</sup></div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - collapse-item -->
+    <li class="nav-item">
+        <a class="nav-link <%= currentPage === 'dashboard' ? 'active' : '' %>" href="/dashboard">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Master Data</span>
+        </a>
+        <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Account</h6>
+                <a class="collapse-item <%= currentPage === 'user' ? 'active' : '' %>" href="/user">
+                    <i class="fas fa-fw fa-user-astronaut"></i>
+                    <span>User</span></a>
+                <h6 class="collapse-header">Menu</h6>
+                <a class="collapse-item <%= currentPage === 'about' ? 'active' : '' %>" href="/about">
+                    <i class="fas fa-fw fa-building"></i>
+                    <span>About</span></a></a>
+                <a class="collapse-item <%= currentPage === 'carousel' ? 'active' : '' %>" href="/carousel">
+                    <i class="fas fa-fw fa-play-circle"></i>
+                    <span>Carousel</span></a>
+                <a class="collapse-item <%= currentPage === 'faq' ? 'active' : '' %>" href="/faq">
+                    <i class="fas fa-fw fa-comments"></i>
+                    <span>FAQ</span></a>
+                <a class="collapse-item <%= currentPage === 'feature' ? 'active' : '' %>" href="/feature">
+                    <i class="fas fa-fw fa-grin-stars"></i>
+                    <span>Feature</span></a>
+                <a class="collapse-item <%= currentPage === 'game' ? 'active' : '' %>" href="/game">
+                    <i class="fas fa-fw fa-futbol"></i>
+                    <span>Game</span></a>
+                <a class="collapse-item <%= currentPage === 'library' ? 'active' : '' %>" href="/library">
+                    <i class="fas fa-fw fa-sd-card"></i>
+                    <span>Library</span></a>
+                <a class="collapse-item <%= currentPage === 'news' ? 'active' : '' %>" href="/news">
+                    <i class="fas fa-fw fa-newspaper"></i>
+                    <span>News</span></a>
+                <a class="collapse-item <%= currentPage === 'paymentMethod' ? 'active' : '' %>" href="/payment-method">
+                    <i class="fas fa-fw fa-credit-card"></i>
+                    <span>Payment Method</span></a>
+                <a class="collapse-item <%= currentPage === 'specification' ? 'active' : '' %>" href="/specification">
+                    <i class="fas fa-fw fa-space-shuttle"></i>
+                    <span>Specification</span></a>
+            </div>
+        </div>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cash-register"></i>
+            <span>Transaction Data</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item <%= currentPage === 'billing' ? 'active' : '' %>" href="/billing">
+                <i class="fas fa-fw fa-hand-holding-usd"></i>
+                    <span >Billing</span></a>
+                <a class="collapse-item <%= currentPage === 'cart' ? 'active' : '' %>" href="/cart">
+                <i class="fas fa-fw fa-shopping-cart"></i>
+                <span>Cart</span></a>
+            </div>
+        </div>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>

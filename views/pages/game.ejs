@@ -1,0 +1,580 @@
+<%- include('../components/header.ejs') %>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Game</h1>
+            <div class="row-12">
+            <% if (alert.message != '') { %>
+                <div class="alert alert-<%= alert.status %>" role="alert">
+                <%- alert.status == 'success' ?
+                `<i class="fa fa-check-square mr-2"></i>`:  
+                `<i class="fa fa-exclamation-triangle" ></i>`  
+                %>
+                <%= alert.message %>
+                <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> -->
+                </div>
+            <% } %>
+            </div>
+        <!-- Tables -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 bg-gradient-login">
+                <h6 class="m-0 font-weight-bold text-white">Games Gime</h6>
+            </div>
+            <div class="card-body">
+                <div class="text-right mb-3">
+                    <button type="button" class="btn btn-info btn-icon-split btn-sm" data-toggle="modal" data-target="#createGames">
+                        <span class="icon text-white-50">
+                        <i class="fas fa-plus-square"></i>
+                        </span>
+                        <span class="text">New Data</span>
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Description</th>
+                                <th>Cover</th>
+                                <th>Trailer</th>
+                                <th>Recomendation</th>
+                                <th>On Sale</th>
+                                <th>Free Game</th>
+                                <th>Special Offer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (let i=0; i<games.length; i++) {%>
+                                <tr>
+                                    <td>
+                                        <%= i+1 %>
+                                    </td>
+                                    <td>
+                                        <%= games[i].name %>
+                                    </td>
+                                    <td>
+                                        <%= games[i].price %>
+                                    </td>
+                                    <td>
+                                        <%= games[i].description %>
+                                    </td>
+                                    <td>
+                                        <img src="/images/<%= games[i].cover %>" width="150vh" alt="">
+                                    </td>
+                                    <td>
+                                        <%= games[i].trailer %>
+                                    </td>
+                                    <td>
+                                        <%= games[i].isRecommendation %>
+                                    </td>
+                                    <td>
+                                        <%= games[i].isOnSale %>
+                                    </td>
+                                    <td>
+                                        <%= games[i].isFreeGame %>
+                                    </td>
+                                    <td>
+                                        <%= games[i].isSpecialOffer %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="11">
+                                        <button class="btn btn-info btn-sm button-edit" title="edit data">
+                                        <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm button-delete mx-1" title="delete data">
+                                        <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn btn-success btn-sm btn-spec" title="show specification"                                        >
+                                        <i class="fas fa-gamepad"></i>
+                                        </button>
+                                        <button class="btn btn-dark btn-sm" title="show detail" data-toggle="modal" data-target="#detailGames"
+                                        >
+                                            <i class="fa fa-gamepad"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="specs-row" style="display: none;">
+                                    <td colspan="4">
+                                        <br>
+                                        <label class="font-weight-bold" for="">Requirement:</label><br>
+                                        <p class="font-weight-light"> Operating System : <%= reqSpecifications[i].os %></p>
+                                        <p class="font-weight-light"> Memory System : <%= reqSpecifications[i].memory %></p>
+                                        <p class="font-weight-light"> Graphic System : <%= reqSpecifications[i].graphic %></p>
+                                        <p class="font-weight-light"> Processor System : <%= reqSpecifications[i].processor %></p>
+                                    </td>
+                                    <td colspan="7">
+                                        <br>
+                                        <label class="font-weight-bold" for="">Minimum:</label><br>
+                                        <p class="font-weight-light"> Operating System : <%= minSpecifications[i].os %></p>
+                                        <p class="font-weight-light"> Memory System : <%= minSpecifications[i].memory %></p>
+                                        <p class="font-weight-light"> Graphic System : <%= minSpecifications[i].graphic %></p>
+                                        <p class="font-weight-light"> Processor System : <%= minSpecifications[i].processor %></p>
+                                    </td>
+                                </tr>                              
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+    <!-- Modal Edit -->
+    <div class="modal fade" id="editGames" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Game</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/game?_method=put" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name" class="form-control gamename" placeholder="Input name of game.." />
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number" name="price" id="price" class="form-control price" placeholder="Input price of game.." />
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea type="text" name="description" id="description" class="form-control description"
+                            placeholder="Input your description here.."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Image</label>
+                            <input type="file" name="image" id="image" class="form-control image"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="trailer">Trailer</label>
+                            <input type="text" name="trailer" id="trailer" class="form-control trailer" placeholder="Input url trailer here.."/>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="isRecommendation">Recommendation Game</label>
+                                    <select name="isRecommendation" id="isRecommendation" class="form-control optionReccomend">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="isOnSale">On Sale Game</label>
+                                    <select name="isOnSale" id="isOnSale" class="form-control optionSale">
+                                    </select>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="isFreeGame">Free Game</label>
+                                    <select name="isFreeGame" id="isFreeGame" class="form-control optionFree">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="isSpecialOffer">Special Offer</label>
+                                    <select name="isSpecialOffer" id="isSpecialOffer" class="form-control OptionOffer">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <hr>
+                            <h5 class="modal-title text-info">Specification for this Game</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="os">Req OS</label>
+                                    <select name="req_os" id="os" class="form-control">
+                                    <option value="">-Jangan Poligami-</option>
+                                    <option value="window">Window</option>
+                                    <option value="linux">Linux</option>
+                                    <option value="macos">Mac OS</option>
+                                    <option value="unix">Unix</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="os">Min OS</label>
+                                    <select name="min_os" id="os" class="form-control">
+                                    <option value="">-Jangan Poligami-</option>
+                                    <option value="window">Window</option>
+                                    <option value="linux">Linux</option>
+                                    <option value="macos">Mac OS</option>
+                                    <option value="unix">Unix</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="os">Req Memory</label>
+                                    <select name="req_memory" id="os" class="form-control">
+                                    <option value="">-Jangan Poligami-</option>
+                                    <option value="2gb">2 GB</option>
+                                    <option value="4gb">4 GB</option>
+                                    <option value="8gb">8 GB</option>
+                                    <option value="16gb">16 GB</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="os">Min Memory</label>
+                                    <select name="min_memory" id="os" class="form-control">
+                                    <option value="">-Jangan Poligami-</option>
+                                    <option value="2gb">2 GB</option>
+                                    <option value="4gb">4 GB</option>
+                                    <option value="8gb">8 GB</option>
+                                    <option value="16gb">16 GB</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="processor">Req Processor</label>
+                                    <input type="text" name="req_processor" id="processor" class="form-control req_processor" placeholder="Input here.."/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="processor"> Min Processor</label>
+                                    <input type="text" name="min_processor" id="processor" class="form-control min_processor" placeholder="Input here.."/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="graphic">Req Graphic</label>
+                                    <input type="text" name="req_graphic" id="graphic" class="form-control req_graphic" placeholder="Input here.."/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="graphic">Min Graphic</label>
+                                    <input type="text" name="min_graphic" id="graphic" class="form-control min_graphic" placeholder="Input here.."/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-info">
+                        <i class="fa fa-save"></i>
+                        Save
+                    </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Hapus -->
+    <div class="modal fade" id="deleteGames" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h6 class="modal-title text-white">Confirm delete !</h6>
+                    <i type="button" class="text-white fa fa-times-circle" data-dismiss="modal" aria-label="Close"></i>
+                </div>
+                <form method="POST" class="form-delete">
+                <div class="modal-body">
+                    <h6>Are you sure for delete this data ?</h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-danger">
+                    Yes
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Detail -->
+    <div class="modal fade" id="detailGames" tabindex="-1" aria-labelledby="detailGamesLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient-login">
+                    <h6 class="modal-title text-white" id="detailGamesLabel">Detail Game</h6>
+                    <i type="button" class="text-white fa fa-times-circle" data-dismiss="modal" aria-label="Close"></i>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="path/to/game/image" class="img-fluid mb-3" alt="Game Image">
+                            </div>
+                            <div class="col-md-8">
+                                <h5 class="modal-title">Mobile Legend</h5>
+                                <p class="text-muted">Price: Rp.200.000</p>
+                                <p>Description:</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                <p>Trailer: <a href="https://www.youtube.com">Watch Trailer</a></p>
+                                <hr>
+                                <h5 class="modal-title">Game Specifications</h5>
+                                <ul>
+                                    <li>OS Requirement: Windows</li>
+                                    <li>Minimum OS: Windows 10</li>
+                                    <li>Memory Requirement: 8 GB</li>
+                                    <li>Minimum Memory: 16 GB</li>
+                                    <li>Processor Requirement: Intel Core i7</li>
+                                    <li>Minimum Processor: Intel Core i5</li>
+                                    <li>Graphics Requirement: NVIDIA GeForce GTX 1060</li>
+                                    <li>Minimum Graphics: NVIDIA GeForce GTX 1050</li>
+                                </ul>
+                                <hr>
+                                <p class="text-muted">Recommended Game: Yes</p>
+                                <p class="text-muted">On Sale: No</p>
+                                <p class="text-muted">Free Game: No</p>
+                                <p class="text-muted">Special Offer: No</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+    <!-- Modal Tambah -->
+    <div class="modal fade" id="createGames" tabindex="-1" aria-labelledby="createGamesLabel">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient-login text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Game</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/game" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="name">Name</label>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Input name of game.." />
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="price">Price</label>
+                            <input type="number" name="price" id="price" class="form-control" placeholder="Input price of game.." />
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="description">Description</label>
+                            <textarea type="text" name="description" id="description" class="form-control"
+                            placeholder="Input your description here.."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="image">Image</label>
+                            <input type="file" name="image" id="image" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="trailer">Trailer</label>
+                            <input type="text" name="trailer" id="trailer" class="form-control" placeholder="Input url trailer here.."/>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="isRecommendation">Recommendation Game</label>
+                                    <select name="isRecommendation" id="isRecommendation" class="form-control">
+                                    <option value="">-Pilih Satu-</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="isOnSale">On Sale Game</label>
+                                    <select name="isOnSale" id="isOnSale" class="form-control">
+                                        <option value="">-Pilih Satu-</option>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="isFreeGame">Free Game</label>
+                                    <select name="isFreeGame" id="isFreeGame" class="form-control">
+                                    <option value="">-Pilih Satu-</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="isSpecialOffer">Special Offer</label>
+                                    <select name="isSpecialOffer" id="isSpecialOffer" class="form-control">
+                                        <option value="">-Pilih Satu-</option>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <hr>
+                            <h5 class="modal-title text-info">Specification for this Game</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="os">Req OS</label>
+                                    <select name="req_os" id="os" class="form-control">
+                                    <option value="">-Jangan Poligami-</option>
+                                    <option value="window">Window</option>
+                                    <option value="linux">Linux</option>
+                                    <option value="macos">Mac OS</option>
+                                    <option value="unix">Unix</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="os">Min OS</label>
+                                    <select name="min_os" id="os" class="form-control">
+                                    <option value="">-Jangan Poligami-</option>
+                                    <option value="window">Window</option>
+                                    <option value="linux">Linux</option>
+                                    <option value="macos">Mac OS</option>
+                                    <option value="unix">Unix</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="os">Req Memory</label>
+                                    <select name="req_memory" id="os" class="form-control">
+                                    <option value="">-Jangan Poligami-</option>
+                                    <option value="2gb">2 GB</option>
+                                    <option value="4gb">4 GB</option>
+                                    <option value="8gb">8 GB</option>
+                                    <option value="16gb">16 GB</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="os">Min Memory</label>
+                                    <select name="min_memory" id="os" class="form-control">
+                                    <option value="">-Jangan Poligami-</option>
+                                    <option value="2gb">2 GB</option>
+                                    <option value="4gb">4 GB</option>
+                                    <option value="8gb">8 GB</option>
+                                    <option value="16gb">16 GB</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="processor">Req Processor</label>
+                                    <input type="text" name="req_processor" id="processor" class="form-control" placeholder="Input here.."/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="processor"> Min Processor</label>
+                                    <input type="text" name="min_processor" id="processor" class="form-control" placeholder="Input here.."/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="graphic">Req Graphic</label>
+                                    <input type="text" name="req_graphic" id="graphic" class="form-control" placeholder="Input here.."/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="graphic">Min Graphic</label>
+                                    <input type="text" name="min_graphic" id="graphic" class="form-control" placeholder="Input here.."/>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-info">
+                        <i class="fa fa-save"></i>
+                        Save
+                    </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>  
+<script>
+    // detail data
+    $(document).ready(function() {
+        $('#dataTable').on ('click','.btn-dtl', function () {
+            try {
+                $('#detailGames').modal('show');
+                console.log(m);
+            } catch (error) {
+                console.error('Error dalam menampilkan modal detail:', error);
+            }
+            });
+    });
+    
+    $('.btn-spec').click(function() {
+        let row = $(this).closest('tr').next('.specs-row');
+        row.toggle();
+    });
+    // edit data
+    $('#dataTable').on('click', '.button-edit', function () {
+        $('#editGames').modal('show');
+        let name = $(this).data('name');
+        let price = $(this).data('price');
+        let desc = $(this).data('description');
+        let cover = $(this).data('image');
+        let trailer = $(this).data('trailer');
+        let recommend = $(this).data('recommendation');
+        let id = $(this).data('id');
+        $('.gamename').val(name);
+        $('.price').val(price);
+        $('.description').val(desc);
+        $('.image').val(cover);
+        $('.trailer').val(trailer);
+        $('.id').val(id);
+        let optionReccomend = `<option value="">-Pilih Satu-</option>`;
+        if (popular) {
+            optionPopular += `<option value="true" selected>True</option>`;
+            optionPopular += `<option value="false">False</option>`;
+        } else {
+            optionPopular += `<option value="true">True</option>`;
+            optionPopular += `<option value="false" selected>False</option>`;
+        }
+        $('.is-popular').html(optionPopular);
+    });
+    // hapus data
+    $('#dataTable').on('click', '.button-delete', function () {
+        $('#deleteGames').modal('show');
+        let id = $(this).data('id');
+        let url = `/game/${id}?_method=DELETE`;
+        $('.form-delete').attr('action', url);
+    });
+    
+    // timer
+        $(document).ready(function(){
+            const timerAlert = $('.alert').text();
+            if (timerAlert !== ''){
+            setTimeout(function(){
+            $('.alert').fadeOut('slow');
+            }, 3000);
+        }
+        });
+</script>
+<%- include('../components/bottom.ejs') %>

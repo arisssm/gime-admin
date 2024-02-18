@@ -1,0 +1,234 @@
+<%- include('../components/header.ejs') %>
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+    <!-- Page Heading -->
+    <!-- <h1 class="h3 mb-4 text-gray-800">User</h1> -->
+    <div class="row-12">
+      <% if (alert.message != '') { %>
+        <div class="alert alert-<%= alert.status %>" role="alert">
+          <%- alert.status == 'success' ?
+          `<i class="fa fa-check-square mr-2"></i>`:  
+          `<i class="fa fa-exclamation-triangle" ></i>`  
+          %>
+          <%= alert.message %>
+          <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        </div>
+      <% } %>
+    </div>
+    <!-- Tables -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 bg-gradient-login">
+        <h6 class="m-0 font-weight-bold text-white">User Information</h6>
+      </div>
+      <div class="card-body">
+        <div class="text-right mb-3">
+          <button type="button" class="btn btn-info btn-icon-split btn-sm" data-toggle="modal" data-target="#createUser">
+            <span class="icon text-white-50">
+              <i class="fas fa-plus-square"></i>
+            </span>
+            <span class="text">New Data</span>
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Full Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for( let i = 0; i <user.length; i++ ) { %>
+                <tr>
+                  <td><%= i+1 %></td>
+                  <td><%= user[i].fullName %></td>
+                  <td><%= user[i].phone %></td>
+                  <td><%= user[i].email %></td>
+                  <td><%= user[i].password %></td>
+                  <td><%= user[i].username %></td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    <button class="btn btn-info btn-sm btn-edit"
+                    data-name = "<%= user[i].fullName %>"
+                    data-telephone = "<%= user[i].phone %>"
+                    data-email = "<%= user[i].email %>"
+                    data-password = "<%= user[i].password %>"
+                    data-username = "<%= user[i].username %>"
+                    data-id = "<%= user[i]._id  %>"
+                    >
+                    <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm btn-delete"
+                    data-id = "<%= user[i]._id  %>"
+                    >
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+  <!-- Modal Create -->
+  <div class="modal fade" id="createUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/user" method="post">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input type="text" name="fullName" id="fullName" class="form-control"
+                placeholder="Input full name here.." />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="text" name="phone" id="phone" class="form-control" placeholder="Input phone here.." />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" name="email" id="email" class="form-control" placeholder="Input email here.." />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="text" name="password" id="password" class="form-control"
+                placeholder="Input password here.." />
+            </div>
+            <div class="form-group">
+              <label for="password">Username</label>
+              <input type="text" name="username" id="username" class="form-control"
+                placeholder="Input password here.." />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-sm btn-info">
+              <i class="fa fa-save"></i>
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Edit -->
+  <div class="modal fade" id="editUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/user?_method=put" method="post">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input type="text" name="fullName" id="fullName" class="form-control name"
+                placeholder="Input full name here.." />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="text" name="phone" id="phone" class="form-control telePhone" placeholder="Input phone here.." />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" name="email" id="email" class="form-control emailUser" placeholder="Input phone here.." />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="text" name="password" id="password" class="form-control passWord"
+                placeholder="Input password here.." />
+            </div>
+            <div class="form-group">
+              <label for="password">Username</label>
+              <input type="text" name="username" id="username" class="form-control userName"
+                placeholder="Input password here.." />
+            </div>
+            <div class="form-group">
+              <input type="hidden" name="id" id="id" class="id-user form-control">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-sm btn-info">
+              <i class="fa fa-save"></i>
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Hapus -->
+  <div class="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-danger">
+          <h6 class="modal-title text-white">Confirm delete !</h6>
+          <i type="button" class="text-white fa fa-times-circle" data-dismiss="modal" aria-label="Close"></i>
+        </div>
+        <form method="POST" class="form-delete">
+          <div class="modal-body">
+            <h6>Are you sure for delete this data ?</h6>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-sm btn-danger">
+              Yes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    // edit data
+    $('#dataTable').on('click', '.btn-edit', function () {
+      $('#editUser').modal('show');
+      let fullname = $(this).data('name');
+      let phone = $(this).data('telephone');
+      let email = $(this).data('email');
+      let password = $(this).data('password');
+      let username = $(this).data('username');
+      let id = $(this).data('id');
+      console.log(email);
+      $('.name').val(fullname);
+      $('.telePhone').val(phone);
+      $('.emailUser').val(email);
+      $('.passWord').val(password);
+      $('.userName').val(username);
+      $('.id-user').val(id);
+    });
+    // hapus data
+    $('#dataTable').on('click', '.btn-delete', function () {
+      $('#deleteUser').modal('show');
+      let id = $(this).data('id');
+      let url = `/user/${id}?_method=DELETE`;
+      $('.form-delete').attr('action', url);
+    });
+    // timer
+    $(document).ready(function(){
+      const timerAlert = $('.alert').text();
+      if (timerAlert !== ''){
+        setTimeout(function(){
+          $('.alert').fadeOut('slow');
+        }, 3000);
+      }
+    });
+  </script>
+  <%- include('../components/bottom.ejs') %>

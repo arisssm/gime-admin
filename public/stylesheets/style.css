@@ -1,0 +1,55 @@
+body {
+  font: 14px "Nunito", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+.bg-gradient-login{
+  background: linear-gradient(to right, #6600be, #a555ed );
+}
+.bg-gradient-sidebar{
+  background: linear-gradient(to right, #6600be, #a555ed );
+}
+.sidebar-brand .sidebar-brand-icon img {
+  width: 120px;
+}
+.sidebar.toggled .sidebar-brand .sidebar-brand-icon img {
+  width: 60px;
+}
+.sidebar.toggled .sidebar-brand .sidebar-brand-text sup{
+  font-size: 20px;
+}
+.navbar-nav .nav-item .collapse .bg-menu-item {
+  background-color: #F8F8F8;
+}
+.sidebar .nav-item .collapse .collapse-inner .menu-item:hover {
+  background-color: #eaecf4;
+  color: #dd1d1d;
+}
+.sidebar .nav-item .nav-link.active {
+  background-color: #ffae00;
+  color: #3d3c3c;
+  font-weight: bold;
+}
+
+.sidebar .nav-item .nav-link.active .fa-fw{
+  color: #3d3c3c;
+}
+.bg-login-image {
+  background: url('https://w0.peakpx.com/wallpaper/164/773/HD-wallpaper-let-s-play-neon-sign-dark-game-gamer-gaming-light-neon-play-sign.jpg');
+  background-position: center;
+  background-size: cover;
+}
+.register-image {
+  background: url('https://w0.peakpx.com/wallpaper/164/773/HD-wallpaper-let-s-play-neon-sign-dark-game-gamer-gaming-light-neon-play-sign.jpg');
+  background-position: center;
+  background-size: cover;
+}
+.card-dashboard {
+  background: url('https://www.24-horas.mx/wp-content/uploads/2023/11/MEDIDAS-PARA-WEB-92.png?w=1200');
+  background-position: center;
+}
+.shadow-card-login{
+  box-shadow: 0 4px 4px rgb(156, 154, 151);
+}
