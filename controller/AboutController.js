@@ -5,6 +5,7 @@ module.exports = {
         res.locals.title = 'Master Data | About ';
         res.locals.currentPage = 'about';
         const about = await About.find();
+        const user = req.session.user;
         const alertMsg = req.flash('alertMsg');
         const alertStatus = req.flash('alertStatus');
         const alert = {
@@ -12,7 +13,7 @@ module.exports = {
             status: alertStatus
         };
         // console.log(about);
-        res.render('pages/about', {about, alert});
+        res.render('pages/about', {about, alert, user});
     },
     store: async (req, res) => {
         const {corporateName,location,description,address,phone} = req.body;

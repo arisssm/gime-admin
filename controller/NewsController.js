@@ -5,13 +5,14 @@ module.exports = {
         res.locals.title = 'Master Data | News ';
         res.locals.currentPage = 'news';
         const news = await News.find();
+        const user = req.session.user;
         const alertMsg = req.flash('alertMsg');
         const alertStatus = req.flash('alertStatus');
         const alert = {
             message: alertMsg,
             status: alertStatus
         };
-        res.render('pages/news', {news, alert});
+        res.render('pages/news', {news, alert, user});
     },
     store: async (req, res) => {
         try {

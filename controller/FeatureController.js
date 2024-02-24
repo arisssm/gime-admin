@@ -7,13 +7,14 @@ module.exports = {
         res.locals.title = 'Master Data | Feature';
         res.locals.currentPage = 'feature';
         const feature = await Feature.find();
+        const user = req.session.user;
         const alertMsg = req.flash('alertMsg');
         const alertStatus = req.flash('alertStatus');
         const alert = {
             message: alertMsg,
             status: alertStatus
         }
-        res.render('pages/feature', {feature, alert});
+        res.render('pages/feature', {feature, alert, user});
     },
     store: async (req, res) => {
         try{

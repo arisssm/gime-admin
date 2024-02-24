@@ -8,13 +8,14 @@ module.exports = {
         const games = await Games.find();
         const reqSpecifications = await Specification.find({ category: 'req' });
         const minSpecifications = await Specification.find({ category: 'min' });
+        const user = req.session.user;
         const alertMsg = req.flash('alertMsg');
         const alertStatus = req.flash('alertStatus');
         const alert = {
             message: alertMsg,
             status: alertStatus
         };
-        res.render('pages/game', {games, alert, reqSpecifications,minSpecifications });
+        res.render('pages/game', {games, alert, reqSpecifications,minSpecifications, user });
     },
     store: async (req, res) => {
         try{

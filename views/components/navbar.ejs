@@ -50,11 +50,19 @@
 
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img class="img-profile rounded-circle"
-                    src="https://cdn-icons-png.flaticon.com/512/1253/1253756.png">
-            </a>
+            <% if (user) { %>
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-3 d-lg-inline text-gray-600"><%= user.fullname %></span>
+                    <% if (user.gender = 'man') { %>
+                        
+                        <% } else { %>
+                            
+                    <% } %>
+                    <img class="img-profile rounded-circle"
+                        src="https://cdn-icons-png.flaticon.com/512/1253/1253756.png">
+                </a>
+            <% } %>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">

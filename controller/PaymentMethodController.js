@@ -4,13 +4,14 @@ module.exports = {
         res.locals.title = 'Master Data | Payment Method';
         res.locals.currentPage = 'paymentMethod';
         const paymentmethod = await PaymentMethod.find();
+        const user = req.session.user;
         const alertMsg = req.flash('alertMsg');
         const alertStatus = req.flash('alertStatus');
         const alert = {
             message: alertMsg,
             status: alertStatus
         }
-        res.render('pages/paymentMethod', {paymentmethod, alert});
+        res.render('pages/paymentMethod', {paymentmethod, alert, user});
     },
     store: async (req, res) => {
         try {

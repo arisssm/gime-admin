@@ -5,13 +5,14 @@ module.exports = {
         res.locals.title = 'Master Data | Carousel';
         res.locals.currentPage = 'carousel';
         const carousel = await Carousel.find();
+        const user = req.session.user;
         const alertMsg = req.flash('alertMsg');
         const alertStatus = req.flash('alertStatus');
         const alert = {
             message: alertMsg,
             status: alertStatus
         };
-        res.render('pages/carousel', {carousel, alert});
+        res.render('pages/carousel', {carousel, alert, user});
     },
 
     store: async (req, res) => {
