@@ -78,7 +78,7 @@ module.exports = {
                 fullname: user.fullName
             }
 
-            req.flash('alertMsg', 'Hello, welcome to admin. Stay Strong and Good Luck !');
+            req.flash('alertMsg', 'Hello, welcome to admin ' + user.username + '. Stay Strong and Good Luck!');
             req.flash('alertStatus', 'success');
             res.redirect('/dashboard');
         } catch(error){
@@ -103,16 +103,17 @@ module.exports = {
         await User.deleteOne({_id:id});
         res.redirect('/user');
     },
-    logout: async(req, res) => {
-        req.session.destroy((err) => {
-            if (err) {
-                console.error("Error destroying session:", err);
-                res.status(500).send("Error destroying session");
-            } else {
-                req.flash('alertMsg', 'Thank you, your session is expired ! Please login again.');
-                req.flash('alertStatus', 'success');
-                res.redirect('/login');
-            }
-        });
+    logout: async (req, res) => {
+        try {
+            req.session.destroy();
+            req.flash('alertMsg', 'Thank you, your session has expired! Please login again.');
+            req.flash('alertStatus', 'success');
+            res.redirect('/login');
+        } catch (error) {
+            console.error(error);
+            req.flash('alertMsg', error.message);
+            req.flash('alertStatus', 'danger');
+            res.redirect('/dashboard');
+        }
     },
 }
