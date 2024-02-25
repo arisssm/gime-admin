@@ -106,14 +106,9 @@ module.exports = {
     logout: async (req, res) => {
         try {
             req.session.destroy();
-            req.flash('alertMsg', 'Thank you, your session has expired! Please login again.');
-            req.flash('alertStatus', 'success');
             res.redirect('/login');
         } catch (error) {
             console.error(error);
-            req.flash('alertMsg', error.message);
-            req.flash('alertStatus', 'danger');
-            res.redirect('/dashboard');
         }
     },
 }

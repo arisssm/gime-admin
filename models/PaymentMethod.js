@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema;
-const billing = require('./Billing');
 
 const paymentMethodSchema = new mongoose.Schema ({
     name: {
@@ -10,10 +8,6 @@ const paymentMethodSchema = new mongoose.Schema ({
     paymentSteps: {
         type: String,
         require: true
-    },
-    billingId: {
-        type: ObjectId,
-        ref: billing
     }
 });
 
