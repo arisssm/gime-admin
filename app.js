@@ -1,13 +1,14 @@
+/**
+ * Declaration modul for app to handle project.
+ */
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
-
 var app = express();
 
 //mongoose setup
@@ -18,7 +19,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/gime');
 const methodOverride = require('method-override');
 app.use(methodOverride ('_method'));
 
-// session
+// for session auth
 const session = require('express-session');
 app.use(session({
   secret: 'keyboard cat',
@@ -35,17 +36,22 @@ app.use(flash());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// part of setup express js
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/sb2admin',express.static(path.join(__dirname,'node_modules/startbootstrap-sb-admin-2')));
-// step 3
-app.use('/api', apiRouter);
 
+// configured to serve static files from the 'public' folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// access for template modul
+app.use('/sb2admin',express.static(path.join(__dirname,'node_modules/startbootstrap-sb-admin-2')));
+
+// access for rute this app
+app.use('/api', apiRouter);
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
