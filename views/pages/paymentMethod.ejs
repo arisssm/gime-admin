@@ -2,7 +2,7 @@
   <!-- Begin Page Content -->
   <div class="container-fluid">
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Payment</h1>
+    <h1 class="h3 mb-4 text-gray-800">Payment Method</h1>
     <div class="row-12">
       <% if (alert.message != '') { %>
         <div class="alert alert-<%= alert.status %>" role="alert">
@@ -17,28 +17,60 @@
         </div>
       <% } %>
     </div>
-    <!-- Tables -->
+    <div class="text-right mb-3">
+      <button type="button" class="btn btn-info btn-icon-split btn-sm" data-toggle="modal" data-target="#createPaymentMethod">
+        <span class="icon text-white-50">
+          <i class="fas fa-plus-square"></i>
+        </span>
+        <span class="text">New Data</span>
+      </button>
+    </div>
+    <div class="row">
+      <% for (let i = 0; i < paymentmethod.length; i++) { %>
+        <% if (i % 3 === 0) { %>
+          </div><div class="row">
+        <% } %>
+        <div class="col-12 col-lg-4 col-xxl-4 col-md-6 col-sm-12"> <!-- Setiap item akan memiliki ukuran kolom 3 (12 dibagi 4) untuk membuat 4 kolom di setiap baris -->
+          <div class="card border-info mb-3" style="width:100%; height:23em; ">
+            <div class="card-header bg-gradient-card text-white">
+              <%= paymentmethod[i].name %>
+            </div>
+            <div class="card-body" style="overflow-y: auto;">
+              <p class="card-text">
+                <pre style="font-family: nunito;"><%- paymentmethod[i].paymentSteps %></pre>
+              </p>
+            </div>
+            <div class="card-footer">
+              <label for="action">Action:</label>
+              <button title="Edit" class="btn btn-info btn-circle btn-sm btn-edit"
+                data-payment = "<%= paymentmethod[i].name%>"
+                data-paysteps = "<%= paymentmethod[i].paymentSteps %>"
+                data-id = "<%= paymentmethod[i]._id %>"
+                >
+                <i class="fas fa-edit"></i>
+                </button>
+                <button title="Delete" class="btn btn-danger btn-circle btn-sm btn-delete"
+                  data-id = "<%= paymentmethod[i]._id %>"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
     <div class="card shadow mb-4">
-      <div class="card-header py-3 bg-gradient-login">
-        <h6 class="m-0 font-weight-bold text-white">Payment Method</h6>
+      <div class="card-header py-3 bg-gradient-card">
+        <h6 class="m-0 font-weight-bold text-white">List Payment</h6>
       </div>
       <div class="card-body">
-        <div class="text-right mb-3">
-          <button type="button" class="btn btn-info btn-icon-split btn-sm" data-toggle="modal" data-target="#createPaymentMethod">
-            <span class="icon text-white-50">
-              <i class="fas fa-plus-square"></i>
-            </span>
-            <span class="text">New Data</span>
-          </button>
-        </div>
         <div class="table-responsive">
-          <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
-            <thead>
+          <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+            <thead class="bg-light">
               <tr>
                 <th>No</th>
                 <th>Name</th>
                 <th>Payment Step</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -51,17 +83,22 @@
                     <%= paymentmethod[i].name %>
                   </td>
                   <td>
-                    <pre style="font-family: Nunito; font-size: 14px;"><%= paymentmethod[i].paymentSteps %></pre>
+                    <pre style="font-family: nunito;">
+                      <%- paymentmethod[i].paymentSteps %>
+                    </pre>
                   </td>
-                  <td>
-                    <button href="#" class="btn btn-info btn-circle btn-sm btn-edit"
+                </tr>
+                <tr class="text-right">
+                  <td colspan="3">
+                    Action:
+                    <button title="Edit" class="btn btn-info btn-circle btn-sm btn-edit"
                     data-payment = "<%= paymentmethod[i].name%>"
                     data-paysteps = "<%= paymentmethod[i].paymentSteps %>"
                     data-id = "<%= paymentmethod[i]._id %>"
                     >
                     <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-danger btn-circle btn-sm btn-delete"
+                    <button title="Delete" class="btn btn-danger btn-circle btn-sm btn-delete"
                       data-id = "<%= paymentmethod[i]._id %>"
                     >
                       <i class="fas fa-trash"></i>
@@ -78,9 +115,9 @@
   <!-- /.container-fluid -->
   <!-- Create Modal -->
   <div class="modal fade" id="createPaymentMethod" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Create Payment Steps</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -94,8 +131,9 @@
             </div>
             <div class="form-group">
               <label for="paymentSteps">Payment Steps</label>
-              <textarea type="text" name="paymentSteps" id="paymentSteps" class="form-control"
-                placeholder="Input your payment steps here.." wrap="hard"></textarea>
+              <input type="hidden" name="paymentSteps" id="paymentSteps" class="form-control"
+                placeholder="Input your payment steps here.." wrap="hard">
+                <trix-editor input="paymentSteps" placeholder="Input your payment steps here.."></trix-editor>
             </div>
           </div>
           <div class="modal-footer">
@@ -109,7 +147,7 @@
   </div>
   <!-- Modal Edit -->
   <div class="modal fade" id="editPaymentMethod" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Update Payment Method</h5>
@@ -117,7 +155,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="/payment-method?_method=put" method="post">
+        <form id="updatePayment" action="/payment-method?_method=put" method="post">
           <div class="modal-body">
             <div class="form-group">
               <label for="name">Name</label>
@@ -125,8 +163,9 @@
             </div>
             <div class="form-group">
               <label for="paymentSteps">Payment Steps</label>
-              <textarea type="text" name="paymentSteps" id="paymentSteps" class="form-control payment-steps"
-                placeholder="Input your payment steps here.."></textarea>
+              <input type="hidden" name="paymentSteps" id="paySteps" class="form-control"
+                placeholder="Input your payment steps here..">
+                <trix-editor input="paymentSteps" class="payment-steps" placeholder="Input your payment steps here.."></trix-editor>
             </div>
             <div class="form-group">
               <input type="hidden" name="id" class="id-paymentMethod" id="id">
@@ -169,7 +208,7 @@
   </div>
   <script>
     //edit payment
-    $('#dataTable').on('click', '.btn-edit', function (){
+    $( '.btn-edit').on('click', function (){
       $('#editPaymentMethod').modal('show');
       let paymentName = $(this).data('payment');
       let steps = $(this).data('paysteps');
@@ -182,7 +221,7 @@
     });
 
     // delete payment
-    $('#dataTable').on('click', '.btn-delete', function(){
+    $('.btn-delete').on('click', function(){
       $('#deleteModal').modal('show');
       let id = $(this).data('id');
       let url = `/payment-method/${id}?_method=DELETE`;
@@ -191,11 +230,24 @@
     // timer
     $(document).ready(function(){
       const timerAlert = $('.alert').text();
+      // apakah variabel timerAlert tidak kosong. 
+      // Jika variabel tersebut tidak kosong (berarti terdapat teks dalam elemen dengan kelas "alert"), 
+      // maka kode di dalam blok if akan dieksekusi.
       if (timerAlert !== ''){
         setTimeout(function(){
           $('.alert').fadeOut('slow');
         }, 3000);
       }
+    });
+
+    // trix-editor
+    $(document).ready(function(){
+      $('#updatePayment').submit(function(event) {
+        // Ambil konten HTML dari Trix Editor
+        const paymentStepsContent = $('.payment-steps').val();
+        // Masukkan konten HTML ke dalam input tersembunyi
+        $('#paySteps').val(paymentStepsContent);
+      })
     });
   </script>
   <%- include('../components/bottom.ejs') %>
