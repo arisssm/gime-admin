@@ -8,6 +8,9 @@ a {
 .bg-gradient-login{
   background: linear-gradient(to right, #6600be, #a555ed );
 }
+.bg-gradient-card{
+  background: linear-gradient(to right, #6600be, #a555ed );
+}
 
 .bg-body-login{
   background: url('https://w0.peakpx.com/wallpaper/235/312/HD-wallpaper-calm-ocean-and-blue-sky-ultra-background-for-u-tv-widescreen-ultrawide-laptop-blue-sky-and-sea.jpg');
