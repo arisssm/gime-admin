@@ -26,9 +26,6 @@ module.exports = {
             res.render('pages/login');
         }
     },
-    indexDashboard: async (req, res) => {
-
-    },
     index: async (req,res) => {
         res.locals.title = 'Master Data | User';
         res.locals.currentPage = 'user';
@@ -45,7 +42,7 @@ module.exports = {
     store: async (req, res) => {
         try{
             const {fullName, phone, email, password, username} = req.body;
-            await User.create({fullName, phone, email, password, username});
+            await User.create({fullName, phone, email, password, username, role:'admin'});
             req.flash('alertMsg', 'Done, your account has been created. Please go to page Login !');
             req.flash('alertStatus', 'success');
             res.redirect('/register');
@@ -72,6 +69,11 @@ module.exports = {
                 return res.redirect('/login');
             }
             // console.log(isPasswordMatch);
+            if (user.role != 'admin'){
+                req.flash('alertMsg', 'Sorry! Your are not admin!');
+                req.flash('alertStatus', 'danger');
+                return res.redirect('/login');
+            }
             req.session.user = {
                 id: user.id,
                 username: user.username,

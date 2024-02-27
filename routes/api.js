@@ -2,21 +2,26 @@
 const express = require('express');
 const router = express.Router();
 const apiController = require('../controller/ApiController');
-// router api
+const { tokenJWT } = require('../middlewares/auth');
+// ===register
+router.post('/register', apiController.addRegister);
+// ===login
+router.post('/login', apiController.postLogin);
+// ===news
 router.get('/news', apiController.indexNews);
 router.get('/news/:id', apiController.showNews);
 // ===cart
-router.get('/cart', apiController.indexCart);
-router.post('/cart', apiController.addCart);
+router.get('/cart', tokenJWT, apiController.indexCart);
+router.post('/cart',tokenJWT, apiController.addCart);
 // ===game
 router.get('/game', apiController.indexGame);
 router.get('/game/:id', apiController.showGame);
 // ===billing
-router.get('/billing', apiController.indexBilling);
-router.post('/billing', apiController.addBilling);
+router.get('/billing', tokenJWT, apiController.indexBilling);
+router.post('/billing', tokenJWT, apiController.addBilling);
 // ===library
-router.get('/library', apiController.indexLibrary);
-router.post('/library', apiController.addLibrary);
+router.get('/library', tokenJWT, apiController.indexLibrary);
+router.post('/library', tokenJWT, apiController.addLibrary);
 // ===faq
 router.get('/faq', apiController.indexFaq);
 // ===feature

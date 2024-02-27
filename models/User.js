@@ -22,7 +22,11 @@ const userSchema = new mongoose.Schema ({
     username:  {
         type: String,
         require: true   
-    } 
+    },
+    role: {
+        type: String,
+        enum: ['customer','admin']
+    }
 });
 
 userSchema.pre('save', async function(next){

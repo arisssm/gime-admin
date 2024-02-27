@@ -1,4 +1,5 @@
-// step 4
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const About = require('../models/About');
 const Billing = require('../models/Billing');
 const Carousel = require('../models/Carousel');
@@ -13,6 +14,43 @@ const User = require('../models/User');
 const Specification = require('../models/Specification');
 
 module.exports = {
+/* =========  Register ========= */
+    addRegister: async (req, res) => {
+        try{
+            const {fullName, phone, email, password, username} = req.body;
+            await User.create({fullName, phone, email, password, username, role:'admin'});
+            res.status(200).json({message: 'Success, your has been regster!'});
+            // console.log(req.body);
+        } catch(error){
+            res.status(400).json({message: 'Please check again your code!'});
+        }
+    },
+    postLogin: async (req, res) => {
+        try{
+            const { username, password } = req.body;
+            const user = await User.findOne({username: username});
+            if (!user){
+                return res.status(401).json({message: 'Sorry, username not found!'});
+            } 
+            const isPasswordMatch =  await bcrypt.compare(password, user.password);
+            if (!isPasswordMatch){
+                return res.status(401).json({message: 'Sorry, password not found!'});
+            }
+            // console.log(isPasswordMatch);
+            if (user.role != 'customer'){
+                return res.status(401).json({message: 'Sorry, your account not valid!'});
+            }
+            const token = jwt.sign({
+                userId: user._id,
+                username: user.username,
+            },
+                "RANDOM-TOKEN", { expiresIn: "3h"}
+            );
+            return res.status(200).json({token, username: user.username});
+        } catch(error){
+            return res.status(400).json({message: error.message});
+        }
+    },
 /* =========  News ========= */
     indexNews: async (req, res) => {
         try{
