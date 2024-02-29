@@ -20,16 +20,30 @@
     <!-- Tables -->
     <div class="card shadow mb-4">
       <div class="card-header py-3 bg-gradient-login">
-        <h6 class="m-0 font-weight-bold text-white">News Gime</h6>
+        <h6 class="m-0 font-weight-bold text-white">List of News</h6>
       </div>
       <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <form action="/searchnews" method="GET">
+              <div class="input-group input-group-sm mb-3">
+                <input type="text" class="form-control bg-light" placeholder="search news here.." name="search">
+                <div class="input-group-append">
+                  <button class="btn btn-sm btn-outline-info" type="submit" id="button-addon2"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </div>
+              </div>
+            </form>
+          </div>          
+          <div class="col-md-8 text-right">
+            <button type="button" class="btn btn-info btn-icon-split btn-sm" data-toggle="modal" data-target="#createNews">
+              <span class="icon text-white-50">
+                <i class="fas fa-plus-square"></i>
+              </span>
+              <span class="text">New Data</span>
+            </button>
+          </div>
+        </div>
         <div class="text-right mb-3">
-          <button type="button" class="btn btn-info btn-icon-split btn-sm" data-toggle="modal" data-target="#createNews">
-            <span class="icon text-white-50">
-              <i class="fas fa-plus-square"></i>
-            </span>
-            <span class="text">New Data</span>
-          </button>
         </div>
         <div class="table-responsive">
           <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
@@ -54,10 +68,10 @@
                     <%= news[i].title %>
                   </td>
                   <td>
-                    
+                    <%= news[i].publishDate %>
                   </td>
                   <td>
-                    <%= news[i].content %>
+                    <%- news[i].content %>
                   </td>
                   <td>
                     <img src="/images/<%= news[i].image %>" width="150vh" alt="">
@@ -90,33 +104,36 @@
   <div class="modal fade" id="createNews" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Create News</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form action="/news" method="POST" enctype="multipart/form-data">
           <div class="modal-body">
             <div class="form-group">
-              <label for="title">Title</label>
+              <label for="title" class="font-weight-bold">Title</label>
               <input type="text" name="title" id="title" class="form-control" placeholder="Input title here.." />
             </div>
             <div class="form-group">
-              <label for="publishDate">Publish Date</label>
+              <label for="publishDate" class="font-weight-bold">Publish Date</label>
               <input type="date" name="publishDate" id="publishDate" class="form-control" />
             </div>
             <div class="form-group">
-              <label for="content">Content</label>
-              <textarea type="text" name="content" id="content" class="form-control"
-                placeholder="Input your content here.."></textarea>
+              <label for="content" class="font-weight-bold">Content</label>
+              <!-- <textarea type="text" name="content" id="content" class="form-control"
+                placeholder="Input your content here.."></textarea> -->
+              <input type="hidden" name="content" id="contentNews" class="form-control"
+                placeholder="Input your content here.." wrap="hard">
+                <trix-editor input="contentNews" placeholder="Input your content here.."></trix-editor>
             </div>
             <div class="form-group">
-              <label for="image">Image</label>
+              <label for="image" class="font-weight-bold">Image</label>
               <input type="file" name="image" id="image" class="form-control" placeholder="Input your image here.." />
             </div>
             <div class="form-group">
-              <label for="isPopular">Popular News</label>
+              <label for="isPopular" class="font-weight-bold">Popular News</label>
               <select name="isPopular" id="isPopular" class="form-control">
                 <option value="">-Pilih Satu-</option>
                 <option value="true">Yes</option>
@@ -140,11 +157,11 @@
       <div class="modal-content">
         <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Update News</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form method="post" action="/news?_method=PUT" enctype="multipart/form-data">
+        <form id="updateNews" method="post" action="/news?_method=PUT" enctype="multipart/form-data">
           <div class="modal-body">
             <div class="form-group">
               <label for="title">Title</label>
@@ -156,13 +173,16 @@
             </div>
             <div class="form-group">
               <label for="content">Content</label>
-              <textarea type="text" name="content" id="content" class="form-control content"
-                placeholder="Input your content here..">
-            </textarea>
+              <!-- <textarea type="text" name="content" id="content" class="form-control content"
+                placeholder="Input your content here.."></textarea> -->
+                <input type="hidden" name="content" id="cNews" />
+                <trix-editor input="cNews" class="content-news" placeholder="Input your content here.."></trix-editor>                
             </div>
             <div class="form-group">
               <label for="image">Image</label>
-              <input type="file" name="image" id="image" class="form-control image"/>
+              <input type="file" name="image" id="imageNews" class="form-control image-news"/>
+              <p class="image-label"></p>
+              <img class="preview-image" src="" id="previewImage" alt="preview" width="200vh">
             </div>
             <div class="form-group">
               <label for="isPopular">Popular News</label>
@@ -210,14 +230,21 @@
     $('#dataTable').on('click', '.btn-edit', function () {
       $('#editNews').modal('show');
       let title = $(this).data('title');
-      let publish = Date($(this).data('publish'));
+      let publish = new Date($(this).data('publish'));
       let content = $(this).data('content');
       let popular = $(this).data('popular');
       let id = $(this).data('id');
+      // console.log(img);
       $('.title').val(title);
-      $('.publish').val(publish);
-      $('.content').val(content);
+      $('.publish').val(publish.toISOString().split('T')[0]); 
+      $('.content-news').val(content);
       $('.id').val(id);
+      // 
+      let img = $(this).data('image');
+      let imgUrl = "/images/" + img;
+      $('.preview-image').attr('src', imgUrl);
+      // $('.image-label').text(img);
+      // 
       let optionPopular = `<option value="">-Pilih Satu-</option>`;
       if (popular) {
         optionPopular += `<option value="true" selected>True</option>`;
@@ -228,13 +255,25 @@
       }
       $('.is-popular').html(optionPopular);
     });
-    // hapus data
+
+    // delete data
     $('#dataTable').on('click', '.btn-delete', function () {
       $('#deleteNews').modal('show');
       let id = $(this).data('id');
       let url = `/news/${id}?_method=DELETE`;
       $('.form-delete').attr('action', url);
     });
+
+    // display image on edit data
+    $('#imageNews').change(function(event) {
+    const file = event.target.files[0]; // ambil target gambar setelah di pilih
+    const reader = new FileReader(); // objek untuk membaca berkas gambar sebagai url data
+    reader.onload = function(e) { // (e)= event listener untuk FileReader selesai membaca berkas
+        $('#previewImage').attr('src', e.target.result); // e.target.result : fungsi jqueury utk menetapkan target sebagai url
+    };
+    reader.readAsDataURL(file); // fungsi jquery utk membaca berkas gambar sebagai URL data
+    });
+
     
     // timer
     $(document).ready(function(){
@@ -244,6 +283,15 @@
           $('.alert').fadeOut('slow');
         }, 3000);
       }
+    });
+    //trix editor
+    $(document).ready(function(){
+      $('#updateNews').submit(function(event) {
+        // Ambil nilai text dari Trix Editor
+        const newsContent = $('.content-news').val();
+        // Masukkan nilai text ke dalam input tersembunyi
+        $('#cNews').val(newsContent);
+      })
     });
   </script>
   <%- include('../components/bottom.ejs') %>

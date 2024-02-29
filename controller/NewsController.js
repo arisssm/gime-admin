@@ -2,22 +2,37 @@ const News = require('../models/News');
 
 module.exports = {
     index: async (req, res) => {
-        res.locals.title = 'Master Data | News ';
-        res.locals.currentPage = 'news';
-        const news = await News.find();
-        const user = req.session.user;
-        const alertMsg = req.flash('alertMsg');
-        const alertStatus = req.flash('alertStatus');
-        const alert = {
-            message: alertMsg,
-            status: alertStatus
-        };
-        res.render('pages/news', {news, alert, user});
+        try {
+            const { search } = req.query; // Mengambil query pencarian dari URL
+            let news;
+            if (search) {
+                // Jika ada, cari berdasarkan nama
+                news = await News.find({ name: { $regex: search, $options: 'i' } }); // Menggunakan regular expression untuk pencarian tanpa memperhatikan huruf besar/kecil
+            } else {
+                // Jika tidak ada, ambil semua berita
+                news = await News.find();
+            }
+            const user = req.session.user;
+            const alertMsg = req.flash('alertMsg');
+            const alertStatus = req.flash('alertStatus');
+            const alert = {
+                message: alertMsg,
+                status: alertStatus
+            };
+            res.locals.title = 'Master Data | News';
+            res.locals.currentPage = 'news';
+            res.render('pages/news', { news, alert, user });
+        } catch (error) {
+            console.error('Error:', error);
+            req.flash('alertMsg', 'Error occurred while searching news.');
+            req.flash('alertStatus', 'danger');
+            res.redirect('/news');
+        }
     },
     store: async (req, res) => {
         try {
             const {title, publishDate, content, isPopular} = req.body;
-            // console.log(req.file);
+            // console.log(req.body);
             await News.create({
                 title,
                 publishDate,
@@ -38,6 +53,7 @@ module.exports = {
     update: async (req, res) => {
         try{
             const { id, title, publishDate, content, isPopular} = req.body;
+            // console.log(req.body);
             if (req.file !== undefined ){
                 await News.updateOne({ _id:id },{
                     title: title,
@@ -60,7 +76,7 @@ module.exports = {
         } catch(error) {
             // console.log(error.message);
             req.flash('alertMsg', error.message)
-            req.flash('alertStatus', 'info');
+            req.flash('alertStatus', 'danger');
             res.redirect('/news');
         }
     },
