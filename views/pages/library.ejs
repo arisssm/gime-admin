@@ -3,74 +3,180 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">Library</h1>
-        <!-- Tables -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
+        <% if (alert.message != '') { %>
+            <div class="alert alert-<%= alert.status %>" role="alert">
+                <%- alert.status == 'success' ?
+                `<i class="fa fa-check-square mr-2"></i>`:  
+                `<i class="fa fa-exclamation-triangle" ></i>`  
+                %>
+                <%= alert.message %>
+                <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> -->
+                </div>
+        <% } %>
+        <!-- Logical Business -->
+        <!-- <div class="row mb-3">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="row bg-white" style="height: 15rem; overflow-y: auto">
+                    <div class="col-sm-3 pt-3">
+                        <div class="card shadow mb-4">
+                            <a href="#detailLibrary2" class="d-block card-header py-3 bg-gradient-card" data-toggle="collapse"
+                                role="button" aria-expanded="true" aria-controls="detailLibrary2">
+                                <h6 class="m-0 font-weight-bold text-white">Deranisa</h6>
+                            </a>
+                            <div class="collapse hide" id="detailLibrary2">
+                                <div class="card-body">
+                                    <div class="m-1">
+                                        <div>
+                                            <p><strong>Username: </strong> deranisa </p> 
+                                            <p><strong>Phone: </strong> deranisa </p> 
+                                        </div>
+                                        <hr>
+                                        <p><strong>Game: </strong> Mobile Legend</p> 
+                                        <p><strong>Price: </strong> Rp. 200.000</p> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>FullName</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Cart</th>
-                                <th>qty</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>$320,800</td>
-                                <td>
-                                    <a href="#" class="btn btn-info btn-circle btn-sm">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-                                <td>63</td>
-                                <td>$170,750</td>
-                                <td>
-                                    <a href="#" class="btn btn-info btn-circle btn-sm">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Ashton Cox</td>
-                                <td>Junior Technical Author</td>
-                                <td>San Francisco</td>
-                                <td>66</td>
-                                <td>$86,000</td>
-                                <td>
-                                    <a href="#" class="btn btn-info btn-circle btn-sm">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+        </div>
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="card border-info mb-3">
+                    <div class="card-body bg-gradient-card text-white">
+                        <h4 class="card-title">List of Paid Game</h4>
+                        <div class="card-text"><small class="text-white"> Customer</small></div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <% for (let i=0; i<library.length; i++) { %>
+                            <% if (i < 3) { %>
+                                <li class="list-group-item">
+                                    <%= i+1 %>. 
+                                    <span class="card-text mx-4">
+                                        <%= library[i].userId?.fullName %>
+                                    </span>
+                                    <span class="mx-3"><button class="btn btn-sm btn-info detail-btn" data-index="<%= i %>">detail</button></span>
+                                </li>
+                            <% } %>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-gradient-card text-white">
+                        List of Paid Game
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                                <thead class="">
+                                    <h6 class="font-weight-bold bg-info p-2 text-white"> Customer</h6>
+                                    <!-- <tr>
+                                        <th>Customer</th>
+                                        <th>Username</th>
+                                        <th>Phone</th>
+                                        <th>Name of Game</th>
+                                        <th>Price of Game</th>
+                                    </tr> -->
+                                </thead>
+                                <tbody>
+                                    <% for (let i=0; i<library.length; i++) { %>
+                                        <tr>
+                                            <td>
+                                                <%= i+1 %>
+                                            </td>
+                                            <td>
+                                                <%= library[i].userId?.fullName %>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm rounded-pill btn-info detail-library"
+                                                data-idUser = "<%= library[i].userId?._id %>"
+                                                data-username = "<%= library[i].userId?.username %>"
+                                                data-phone = "<%= library[i].userId?.phone %>"
+                                                data-email = "<%= library[i].userId?.email %>"
+                                                data-idGame = "<%= library[i].gameId?._id %>"
+                                                data-name = "<%= library[i].gameId?.name %>"
+                                                data-image-path="<%= library[i].gameId?.cover %>"
+                                                data-price = "<%= library[i].gameId?.price %>"
+                                                data-description = "<%= library[i].gameId?.description %>"
+                                                data-trailer = "<%= library[i].gameId?.trailer %>"
+                                                > detail 
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- /.container-fluid -->
+    <!-- Modal Detail -->
+    <div class="modal fade" id="modalDetailLibrary" tabindex="-1" aria-labelledby="modalDetailLibrary" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient-card">
+                    <h6 class="modal-title text-white" id="detailGamesLabel">Detail Library</h6>
+                    <i type="button" class="text-white fa fa-times-circle" data-dismiss="modal" aria-label="Close"></i>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <img class="img-fluid game-image mb-3" alt="Game Image" width="100vh">
+                            </div>
+                            <div class="col-sm-8">
+                                <h5 class="modal-title font-weight-bold gamename"></h5>
+                                <p class="text-muted">Price: <span class="price"></span></p>
+                                <p class="description"></p>
+                                <p>Trailer: <span class="trailer"></span></p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="">
+                            <h5 class="modal-title mb-2">Customer</h5>
+                            <p class="username"><i class="fa fa-user-circle"></i> Username: <span class="font-weight-bold"></span></p>
+                            <p class="phone"><i class="fa fa-phone-square"></i> Phone: <span class="font-weight-bold"></span></p>
+                            <p class="email"><i class="fa fa-envelope"></i> Email: <span class="font-weight-bold"></span></p>
+                        </div>
+                    </div>
+                </div>                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#dataTable').on('click', '.detail-library', function(){
+            $('#modalDetailLibrary').modal('show');
+            let name = $(this).data('name');
+            let price = $(this).data('price');
+            let desc = $(this).data('description');
+            let trailer = $(this).data('trailer');
+            let user = $(this).data('username');
+            let email = $(this).data('email');
+            let phone = $(this).data('phone');
+            let imagePath = $(this).data('image-path');
+            // console.log(email);
+            $('.gamename').text(name);
+            $('.price').text(price);
+            $('.description').text(desc);
+            // $('.trailer').html(`<iframe width="100%" height="315" src="${trailer}" frameborder="0" allowfullscreen></iframe>`);
+            $('.trailer').html(`<a href="${trailer}" target="_blank">Watch Video</a>`);
+            $('.game-image').attr('src', `/images/${imagePath}`);
+            $('.username span').text(user);
+            $('.phone span').text(phone);
+            $('.email span').text(email);
+        });
+    </script>
 <%- include('../components/bottom.ejs') %>
