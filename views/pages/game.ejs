@@ -20,32 +20,55 @@
             </div>
         <!-- Tables -->
         <div class="card shadow mb-4">
-            <div class="card-header py-3 bg-gradient-login">
+            <div class="card-header py-3 bg-gradient-card">
                 <h6 class="m-0 font-weight-bold text-white">Games Gime</h6>
             </div>
             <div class="card-body">
-                <div class="text-right mb-3">
-                    <button type="button" class="btn btn-info btn-icon-split btn-sm" data-toggle="modal" data-target="#createGames">
-                        <span class="icon text-white-50">
-                        <i class="fas fa-plus-square"></i>
-                        </span>
-                        <span class="text">New Data</span>
-                    </button>
-                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <form action="/search-game" method="GET">
+                            <div class="input-group input-group-sm shadow-sm mb-3">
+                                <input type="text" class="form-control bg-light" placeholder="search game here.." name="search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-sm btn-primary" type="submit" id="searchGame"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false">
+                                        <span class="sr-only">Toggle Dropdown</span><span class="mx-1">Filter</span> 
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item fitler-item" type="button" data-filter="name" data-gameAll="<%= JSON.stringify(games) %>" id="nameGame">Nama A-Z</a>
+                                        <a class="dropdown-item filter-item" type="button" data-filter="price" data-gameAll="<%= JSON.stringify(games) %>" id="priceGame">Price</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div> 
+                    <div class="col-md-8">
+                        <div class="text-right mb-3">
+                            <button type="button" class="btn btn-info btn-icon-split btn-sm" data-toggle="modal" data-target="#createGames">
+                                <span class="icon text-white-50">
+                                <i class="fas fa-plus-square"></i>
+                                </span>
+                                <span class="text">New Data</span>
+                            </button>
+                        </div>
+                    </div>
+                    </div>
                 <div class="table-responsive">
-                    <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
+                    <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-light">
                             <tr>
-                                <th>No</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Description</th>
-                                <th>Cover</th>
-                                <th>Trailer</th>
-                                <th>Recomendation</th>
-                                <th>On Sale</th>
-                                <th>Free Game</th>
-                                <th>Special Offer</th>
+                                <th width="5%">No</th>
+                                <th width="15%">Name</th>
+                                <th width="10%">Price</th>
+                                <th width="30%">Description</th>
+                                <th width="15%">Cover</th>
+                                <th width="5%">Trailer</th>
+                                <th width="10%">Recomendation</th>
+                                <th width="5%">On Sale</th>
+                                <th width="5%">Free Game</th>
+                                <th width="5%">Special Offer</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -84,18 +107,39 @@
                                 </tr>
                                 <tr>
                                     <td colspan="11">
-                                        <button class="btn btn-info btn-sm button-edit" title="edit data">
-                                        <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-sm button-delete mx-1" title="delete data">
-                                        <i class="fas fa-trash"></i>
-                                        </button>
-                                        <button class="btn btn-success btn-sm btn-spec" title="show specification"                                        >
-                                        <i class="fas fa-gamepad"></i>
-                                        </button>
-                                        <button class="btn btn-dark btn-sm" title="show detail" data-toggle="modal" data-target="#detailGames"
+                                        <button class="btn btn-info btn-sm btn-circle button-edit" title="edit"
+                                        data-name = "<%= games[i].name %>"
+                                        data-price = "<%= games[i].price %>"
+                                        data-image = "<%= games[i].cover %>"
+                                        data-description = "<%= games[i].description %>"
+                                        data-trailer = "<%= games[i].trailer %>"
+                                        data-recommendation = "<%= games[i].isRecommendation %>"
+                                        data-onsale = "<%= games[i].isOnSale %>"
+                                        data-freegame = "<%= games[i].isFreeGame %>"
+                                        data-specialoffer = "<%= games[i].isSpecialOffer %>"
+                                        data-reqMemory="<%= games[i].specificationId.find(spec => spec.category === 'req' && spec.gameId.toString() === games[i]._id.toString()) ? games[i].specificationId.find(spec => spec.category === 'req' && spec.gameId.toString() === games[i]._id.toString()).memory : '' %>"
+                                        data-minOS ="<%= games[i].specificationId.find(spec => spec.category === 'min' && spec.gameId.toString() === games[i]._id.toString()) ? JSON.stringify(games[i].specificationId.find(spec => spec.category === 'min' && spec.gameId.toString() === games[i]._id.toString())) : '' %>"                                    
                                         >
-                                            <i class="fa fa-gamepad"></i>
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm btn-circle button-delete mx-1" title="delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn btn-outline-info btn-sm btn-circle btn-spec" title="show specification"                                        >
+                                            <i class="fas fa-gamepad"></i>
+                                        </button>
+                                        <button class="btn btn-outline-info btn-sm btn-circle show-detail" title="show detail" data-toggle="modal" data-target="#detailGames"
+                                        data-name = "<%= games[i].name %>"
+                                        data-price = "<%= games[i].price %>"
+                                        data-image = "<%= games[i].cover %>"
+                                        data-description = "<%= games[i].description %>"
+                                        data-trailer = "<%= games[i].trailer %>"
+                                        data-recommendation = "<%= games[i].isRecommendation %>"
+                                        data-onsale = "<%= games[i].isOnSale %>"
+                                        data-freegame = "<%= games[i].isFreeGame %>"
+                                        data-specialoffer = "<%= games[i].isSpecialOffer %>"
+                                        >
+                                            <i class="fa fa-space-shuttle"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -127,49 +171,52 @@
     <!-- /.container-fluid -->
     <!-- Modal Edit -->
     <div class="modal fade" id="editGames" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header bg-info text-white">
                     <h5 class="modal-title" id="exampleModalLabel">Update Game</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <form action="/game?_method=put" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" name="name" id="name" class="form-control gamename" placeholder="Input name of game.." />
+                            <label class="font-weight-bold" for="name">Name</label>
+                            <input type="text" name="name" id="name" class="form-control gamename" placeholder="Input name of game" />
                         </div>
                         <div class="form-group">
-                            <label for="price">Price</label>
-                            <input type="number" name="price" id="price" class="form-control price" placeholder="Input price of game.." />
+                            <label class="font-weight-bold" for="price">Price</label>
+                            <input type="number" name="price" id="price" class="form-control price" placeholder="Input price of game" />
                         </div>
                         <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea type="text" name="description" id="description" class="form-control description"
-                            placeholder="Input your description here.."></textarea>
+                            <label class="font-weight-bold" for="description">Description</label>
+                            <!-- <textarea type="text" name="description" id="description" class="form-control description"
+                            placeholder="Input your description"></textarea> -->
+                            <input type="hidden" name="description" id="descriptionGame" class="form-control">
+                            <trix-editor input="descriptionGame" class="description-game" placeholder="Input your content here.."></trix-editor>                
                         </div>
                         <div class="form-group">
-                            <label for="image">Image</label>
-                            <input type="file" name="image" id="image" class="form-control image"/>
+                            <label class="font-weight-bold" for="image">Image</label>
+                            <input type="file" name="image" id="imageGame" class="form-control image"/>
+                            <img class="preview-image mt-2" src="" id="previewImage" alt="Choose Image!" width="200vh">
                         </div>
                         <div class="form-group">
-                            <label for="trailer">Trailer</label>
-                            <input type="text" name="trailer" id="trailer" class="form-control trailer" placeholder="Input url trailer here.."/>
+                            <label class="font-weight-bold" for="trailer">Trailer</label>
+                            <input type="text" name="trailer" id="trailer" class="form-control trailer" placeholder="Url trailer"/>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="isRecommendation">Recommendation Game</label>
-                                    <select name="isRecommendation" id="isRecommendation" class="form-control optionReccomend">
+                                    <label class="font-weight-bold" for="isRecommendation">Recommendation Game</label>
+                                    <select name="isRecommendation" id="isRecommendation" class="form-control is-popular">
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="isOnSale">On Sale Game</label>
-                                    <select name="isOnSale" id="isOnSale" class="form-control optionSale">
+                                    <label class="font-weight-bold" for="isOnSale">On Sale Game</label>
+                                    <select name="isOnSale" id="isOnSale" class="form-control is-onsale">
                                     </select>
                                     </div>
                             </div>
@@ -177,15 +224,15 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="isFreeGame">Free Game</label>
-                                    <select name="isFreeGame" id="isFreeGame" class="form-control optionFree">
+                                    <label class="font-weight-bold" for="isFreeGame">Free Game</label>
+                                    <select name="isFreeGame" id="isFreeGame" class="form-control is-freegame">
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="isSpecialOffer">Special Offer</label>
-                                    <select name="isSpecialOffer" id="isSpecialOffer" class="form-control OptionOffer">
+                                    <label class="font-weight-bold" for="isSpecialOffer">Special Offer</label>
+                                    <select name="isSpecialOffer" id="isSpecialOffer" class="form-control is-specialoffer">
                                     </select>
                                 </div>
                             </div>
@@ -198,48 +245,28 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="os">Req OS</label>
-                                    <select name="req_os" id="os" class="form-control">
-                                    <option value="">-Jangan Poligami-</option>
-                                    <option value="window">Window</option>
-                                    <option value="linux">Linux</option>
-                                    <option value="macos">Mac OS</option>
-                                    <option value="unix">Unix</option>
+                                    <select name="req_os" id="os" class="form-control req-os">
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="os">Min OS</label>
-                                    <select name="min_os" id="os" class="form-control">
-                                    <option value="">-Jangan Poligami-</option>
-                                    <option value="window">Window</option>
-                                    <option value="linux">Linux</option>
-                                    <option value="macos">Mac OS</option>
-                                    <option value="unix">Unix</option>
+                                    <select name="min_os" id="os" class="form-control min-os">
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="os">Req Memory</label>
-                                    <select name="req_memory" id="os" class="form-control">
-                                    <option value="">-Jangan Poligami-</option>
-                                    <option value="2gb">2 GB</option>
-                                    <option value="4gb">4 GB</option>
-                                    <option value="8gb">8 GB</option>
-                                    <option value="16gb">16 GB</option>
+                                    <select name="req_memory" id="os" class="form-control req-memory">
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="os">Min Memory</label>
-                                    <select name="min_memory" id="os" class="form-control">
-                                    <option value="">-Jangan Poligami-</option>
-                                    <option value="2gb">2 GB</option>
-                                    <option value="4gb">4 GB</option>
-                                    <option value="8gb">8 GB</option>
-                                    <option value="16gb">16 GB</option>
+                                    <select name="min_memory" id="os" class="form-control min-memory">
                                     </select>
                                 </div>
                             </div>
@@ -248,25 +275,25 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="processor">Req Processor</label>
-                                    <input type="text" name="req_processor" id="processor" class="form-control req_processor" placeholder="Input here.."/>
+                                    <input type="text" name="req_processor" id="processor" class="form-control req-processor" placeholder="Input here.."/>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="processor"> Min Processor</label>
-                                    <input type="text" name="min_processor" id="processor" class="form-control min_processor" placeholder="Input here.."/>
+                                    <input type="text" name="min_processor" id="processor" class="form-control min-processor" placeholder="Input here.."/>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="graphic">Req Graphic</label>
-                                    <input type="text" name="req_graphic" id="graphic" class="form-control req_graphic" placeholder="Input here.."/>
+                                    <input type="text" name="req_graphic" id="graphic" class="form-control req-graphic" placeholder="Input here.."/>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="graphic">Min Graphic</label>
-                                    <input type="text" name="min_graphic" id="graphic" class="form-control min_graphic" placeholder="Input here.."/>
+                                    <input type="text" name="min_graphic" id="graphic" class="form-control min-graphic" placeholder="Input here.."/>
                                 </div>
                             </div>
                         </div>
@@ -306,22 +333,23 @@
     <div class="modal fade" id="detailGames" tabindex="-1" aria-labelledby="detailGamesLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-gradient-login">
+                <div class="modal-header bg-gradient-card">
                     <h6 class="modal-title text-white" id="detailGamesLabel">Detail Game</h6>
-                    <i type="button" class="text-white fa fa-times-circle" data-dismiss="modal" aria-label="Close"></i>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-4">
-                                <img src="path/to/game/image" class="img-fluid mb-3" alt="Game Image">
+                                <img class="img-fluid game-image mb-3" alt="Game Image" width="250vh">
                             </div>
                             <div class="col-md-8">
-                                <h5 class="modal-title">Mobile Legend</h5>
-                                <p class="text-muted">Price: Rp.200.000</p>
-                                <p>Description:</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <p>Trailer: <a href="https://www.youtube.com">Watch Trailer</a></p>
+                                <h5 class="modal-title font-weight-bold game-name"></h5>
+                                <p class="text-muted">Rp. <span class="game-price"></span></p>
+                                <p class="game-description">Description:</p>
+                                <p>Trailer: <span class="trailer-game"></span></p>
                                 <hr>
                                 <h5 class="modal-title">Game Specifications</h5>
                                 <ul>
@@ -335,10 +363,10 @@
                                     <li>Minimum Graphics: NVIDIA GeForce GTX 1050</li>
                                 </ul>
                                 <hr>
-                                <p class="text-muted">Recommended Game: Yes</p>
-                                <p class="text-muted">On Sale: No</p>
-                                <p class="text-muted">Free Game: No</p>
-                                <p class="text-muted">Special Offer: No</p>
+                                <p class="text-muted">Recommended Game: <span class="font-weight-bold re-commended"></span></p>
+                                <p class="text-muted">On Sale: <span class="font-weight-bold on-sale"></span></p>
+                                <p class="text-muted">Free Game: <span class="font-weight-bold free-game"></span></p>
+                                <p class="text-muted">Special Offer: <span class="font-weight-bold special-offer"></span></p>
                             </div>
                         </div>
                     </div>
@@ -349,13 +377,13 @@
             </div>
         </div>
     </div>  
-    <!-- Modal Tambah -->
+    <!-- Modal Create -->
     <div class="modal fade" id="createGames" tabindex="-1" aria-labelledby="createGamesLabel">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header bg-gradient-login text-white">
+                <div class="modal-header bg-info text-white">
                     <h5 class="modal-title" id="exampleModalLabel">Create Game</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -363,31 +391,32 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label class="font-weight-bold" for="name">Name</label>
-                            <input type="text" name="name" id="name" class="form-control" placeholder="Input name of game.." />
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Input name of game" />
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="price">Price</label>
-                            <input type="number" name="price" id="price" class="form-control" placeholder="Input price of game.." />
+                            <input type="number" name="price" id="price" class="form-control" placeholder="Input price of game" />
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="description">Description</label>
                             <textarea type="text" name="description" id="description" class="form-control"
-                            placeholder="Input your description here.."></textarea>
+                            placeholder="Input your description"></textarea>
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="image">Image</label>
-                            <input type="file" name="image" id="image" class="form-control"/>
+                            <input type="file" name="image" id="imageGame" class="form-control"/>
+                            <img class="preview-image mt-2" src="" id="previewImage" alt="Choose Image!" width="200vh">
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold" for="trailer">Trailer</label>
-                            <input type="text" name="trailer" id="trailer" class="form-control" placeholder="Input url trailer here.."/>
+                            <input type="text" name="trailer" id="trailer" class="form-control" placeholder="Url trailer"/>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="isRecommendation">Recommendation Game</label>
                                     <select name="isRecommendation" id="isRecommendation" class="form-control">
-                                    <option value="">-Pilih Satu-</option>
+                                    <option value="">-Choose One-</option>
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
                                     </select>
@@ -397,7 +426,7 @@
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="isOnSale">On Sale Game</label>
                                     <select name="isOnSale" id="isOnSale" class="form-control">
-                                        <option value="">-Pilih Satu-</option>
+                                        <option value="">-Choose One-</option>
                                         <option value="true">Yes</option>
                                         <option value="false">No</option>
                                     </select>
@@ -409,7 +438,7 @@
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="isFreeGame">Free Game</label>
                                     <select name="isFreeGame" id="isFreeGame" class="form-control">
-                                    <option value="">-Pilih Satu-</option>
+                                    <option value="">-Choose One-</option>
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
                                     </select>
@@ -419,7 +448,7 @@
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="isSpecialOffer">Special Offer</label>
                                     <select name="isSpecialOffer" id="isSpecialOffer" class="form-control">
-                                        <option value="">-Pilih Satu-</option>
+                                        <option value="">-Choose One-</option>
                                         <option value="true">Yes</option>
                                         <option value="false">No</option>
                                     </select>
@@ -435,7 +464,7 @@
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="os">Req OS</label>
                                     <select name="req_os" id="os" class="form-control">
-                                    <option value="">-Jangan Poligami-</option>
+                                    <option value="">-Choose One-</option>
                                     <option value="window">Window</option>
                                     <option value="linux">Linux</option>
                                     <option value="macos">Mac OS</option>
@@ -447,7 +476,7 @@
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="os">Min OS</label>
                                     <select name="min_os" id="os" class="form-control">
-                                    <option value="">-Jangan Poligami-</option>
+                                    <option value="">-Choose One-</option>
                                     <option value="window">Window</option>
                                     <option value="linux">Linux</option>
                                     <option value="macos">Mac OS</option>
@@ -459,7 +488,7 @@
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="os">Req Memory</label>
                                     <select name="req_memory" id="os" class="form-control">
-                                    <option value="">-Jangan Poligami-</option>
+                                    <option value="">-Choose One-</option>
                                     <option value="2gb">2 GB</option>
                                     <option value="4gb">4 GB</option>
                                     <option value="8gb">8 GB</option>
@@ -471,7 +500,7 @@
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="os">Min Memory</label>
                                     <select name="min_memory" id="os" class="form-control">
-                                    <option value="">-Jangan Poligami-</option>
+                                    <option value="">-Choose One-</option>
                                     <option value="2gb">2 GB</option>
                                     <option value="4gb">4 GB</option>
                                     <option value="8gb">8 GB</option>
@@ -484,25 +513,25 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="processor">Req Processor</label>
-                                    <input type="text" name="req_processor" id="processor" class="form-control" placeholder="Input here.."/>
+                                    <input type="text" name="req_processor" id="processor" class="form-control" placeholder="ex: GT-Force"/>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="processor"> Min Processor</label>
-                                    <input type="text" name="min_processor" id="processor" class="form-control" placeholder="Input here.."/>
+                                    <input type="text" name="min_processor" id="processor" class="form-control" placeholder="ex: Intel Celeron"/>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="graphic">Req Graphic</label>
-                                    <input type="text" name="req_graphic" id="graphic" class="form-control" placeholder="Input here.."/>
+                                    <input type="text" name="req_graphic" id="graphic" class="form-control" placeholder="ex: NVIDIA Max"/>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="graphic">Min Graphic</label>
-                                    <input type="text" name="min_graphic" id="graphic" class="form-control" placeholder="Input here.."/>
+                                    <input type="text" name="min_graphic" id="graphic" class="form-control" placeholder="ex: AMD R4 Radeon"/>
                                 </div>
                             </div>
                         </div>
@@ -517,6 +546,12 @@
         </div>
     </div>  
 <script>
+    // create data
+    $('#createGames').on('click', function(){
+      let img = $(this).data('image');
+      let imgUrl = "/images/" + img;
+      $('.preview-image').attr('src', imgUrl);
+    });
     // detail data
     $(document).ready(function() {
         $('#dataTable').on ('click','.btn-dtl', function () {
@@ -541,30 +576,125 @@
         let desc = $(this).data('description');
         let cover = $(this).data('image');
         let trailer = $(this).data('trailer');
-        let recommend = $(this).data('recommendation');
+        // 
+        let reCommendation = $(this).data('recommendation');
+        let onSale = $(this).data('onsale');
+        let freeGame = $(this).data('freegame');
+        let specialOffer = $(this).data('specialoffer');
+        // 
+        let minSystem = $(this).data('minOS');
+        let reqMemo = $(this).data('reqMemory');
+        console.log(minSystem);
+        console.log(reqMemo);
+        // 
         let id = $(this).data('id');
+        let imgUrl = "/images/" + cover;
+        console.log(cover);
+        // 
         $('.gamename').val(name);
         $('.price').val(price);
-        $('.description').val(desc);
-        $('.image').val(cover);
+        $('.description-game').val(desc);
+        // $('.image').val(cover);
+        $('.preview-image').attr('src', imgUrl);
         $('.trailer').val(trailer);
         $('.id').val(id);
-        let optionReccomend = `<option value="">-Pilih Satu-</option>`;
-        if (popular) {
-            optionPopular += `<option value="true" selected>True</option>`;
-            optionPopular += `<option value="false">False</option>`;
+        // 
+        let optionRecommend = `<option value="">-Choose One -</option>`;
+        if (reCommendation) {
+            optionRecommend += `<option value="true" selected>True</option>`;
+            optionRecommend += `<option value="false">False</option>`;
         } else {
-            optionPopular += `<option value="true">True</option>`;
-            optionPopular += `<option value="false" selected>False</option>`;
+            optionRecommend += `<option value="true">True</option>`;
+            optionRecommend += `<option value="false" selected>False</option>`;
         }
-        $('.is-popular').html(optionPopular);
+        $('.is-popular').html(optionRecommend);
+        // 
+        let optionOnSale = `<option value="">-Choose One -</option>`;
+        if (onSale) {
+            optionOnSale += `<option value="true" selected>True</option>`;
+            optionOnSale += `<option value="false">False</option>`;
+        } else {
+            optionOnSale += `<option value="true">True</option>`;
+            optionOnSale += `<option value="false" selected>False</option>`;
+        }
+        $('.is-onsale').html(optionOnSale);
+        // 
+        let optionFreeGame = `<option value="">-Choose One -</option>`;
+        if (freeGame) {
+            optionFreeGame += `<option value="true" selected>True</option>`;
+            optionFreeGame += `<option value="false">False</option>`;
+        } else {
+            optionFreeGame += `<option value="true">True</option>`;
+            optionFreeGame += `<option value="false" selected>False</option>`;
+        }
+        $('.is-freegame').html(optionFreeGame);
+        // 
+        let optionSpecialOffer = `<option value="">-Choose One -</option>`;
+        if (specialOffer) {
+            optionSpecialOffer += `<option value="true" selected>True</option>`;
+            optionSpecialOffer += `<option value="false">False</option>`;
+        } else {
+            optionSpecialOffer += `<option value="true">True</option>`;
+            optionSpecialOffer += `<option value="false" selected>False</option>`;
+        }
+        $('.is-specialoffer').html(optionSpecialOffer);
+
     });
-    // hapus data
+
+    // delete data
     $('#dataTable').on('click', '.button-delete', function () {
         $('#deleteGames').modal('show');
         let id = $(this).data('id');
         let url = `/game/${id}?_method=DELETE`;
         $('.form-delete').attr('action', url);
+    });
+
+    // display detail game
+    $('#dataTable').on('click', '.show-detail', function () {
+        let name = $(this).data('name');
+        let price = $(this).data('price');
+        let desc = $(this).data('description');
+        let imagePath = $(this).data('image');
+        let trailer = $(this).data('trailer');
+        let reCommendation = $(this).data('recommendation');
+        let onSale = $(this).data('onsale');
+        let freeGame = $(this).data('freegame');
+        let specialOffer = $(this).data('specialoffer');
+        $('.game-name').text(name);
+        $('.game-price').text(price);
+        $('.game-description').text(desc);
+        $('.game-image').attr('src', `/images/${imagePath}`);
+        $('.trailer-game').html(`<a href="${trailer}" target="_blank">Watch Video</a>`);
+        if(reCommendation == true ){
+            $('.re-commended').html(`<i class="fa fa-check-square text-success"></i> Yes`);
+        } else {
+            $('.re-commended').html(`<i class="fa fa-window-close text-danger"></i> No`);
+        }
+        if(onSale == true ){
+            $('.on-sale').html(`<i class="fa fa-check-square text-success"></i> Yes`);
+        } else {
+            $('.on-sale').html(`<i class="fa fa-window-close text-danger"></i> No`);
+        }
+        if(freeGame == true ){
+            $('.free-game').html(`<i class="fa fa-check-square text-success"></i> Yes`);
+        } else {
+            $('.free-game').html(`<i class="fa fa-window-close text-danger"></i> No`);
+        }
+        if(specialOffer == true ){
+            $('.special-offer').html(`<i class="fa fa-check-square text-success"></i> Yes`);
+        } else {
+            $('.special-offer').html(`<i class="fa fa-window-close text-danger"></i> No`);
+        }
+    });
+
+    // display image on edit data
+    $('#imageGame').change(function(event) {
+    const file = event.target.files[0]; // ambil target gambar setelah di pilih
+    const reader = new FileReader(); // objek untuk membaca berkas gambar sebagai url data
+    reader.onload = function(e) { // (e)= event listener untuk FileReader selesai membaca berkas
+        $('#previewImage').attr('src', e.target.result); // e.target.result : fungsi jqueury utk menetapkan target sebagai url
+    };
+    reader.readAsDataURL(file); // fungsi jquery utk membaca berkas gambar sebagai URL data
     });
     
     // timer
@@ -576,5 +706,45 @@
             }, 3000);
         }
         });
+
+    // filter data
+    let gameNames = [];
+    let gamePrices = [];
+    $(document).ready(function () {
+        let dataGame = $(this).data('gameAll');
+        console.log('ini data GAMEBOT',dataGame);
+        $.each(dataGame, function(index, game) {
+            gameNames.push(game.name);
+            gamePrices.push(game.price);
+        });
+
+        $('.filter-item').click(function () {
+            var filterType = $(this).data('filter');
+            if (filterType === 'name') {
+                filterByName();
+            } else if (filterType === 'price') {
+                filterByPrice();
+            }
+        });
+
+        function filterByName() {
+            gameNames.sort();
+            console.log('Filter by Name', gameNames);
+        }
+
+        function filterByPrice() {
+            gamePrices.sort((a, b) => b - a);
+            console.log('Filter by Price', gamePrices);
+        }
+    });
+    // trix editor
+    $(document).ready(function(){
+      $('#updateGames').submit(function(event) {
+        // Ambil nilai text dari Trix Editor
+        const gameDescription = $('.description-game').val();
+        // Masukkan nilai text ke dalam input tersembunyi
+        $('#descriptionGame').val(gameDescription);
+      })
+    });
 </script>
 <%- include('../components/bottom.ejs') %>

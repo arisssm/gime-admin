@@ -3,8 +3,6 @@ const Specification = require('../models/Specification');
 
 module.exports = {
     index: async (req, res) => {
-        res.locals.title = 'Master Data | Game ';
-        res.locals.currentPage = 'game';
         const games = await Games.find();
         const reqSpecifications = await Specification.find({ category: 'req' });
         const minSpecifications = await Specification.find({ category: 'min' });
@@ -15,7 +13,40 @@ module.exports = {
             message: alertMsg,
             status: alertStatus
         };
-        res.render('pages/game', {games, alert, reqSpecifications,minSpecifications, user });
+        res.locals.title = 'Master Data | Game ';
+        res.locals.currentPage = 'game';
+        res.render('pages/game', {games, alert, reqSpecifications, minSpecifications, user });
+    },
+    search: async (req, res) => {
+        try {
+            const user = req.session.user;
+            const searchGames = req.query.search || '';
+            const regex = new RegExp(searchGames, 'i');
+            
+            let games;
+            if (searchGames) {
+                games = await Games.find({ name: regex });
+            } else {
+                games = await Games.find({});
+            }
+            const reqSpecifications = await Specification.find({ category: 'req' });
+            const minSpecifications = await Specification.find({ category: 'min' });
+            const alertMsg = req.flash('alertMsg');
+            const alertStatus = req.flash('alertStatus');
+            const alert = {
+                message: alertMsg,
+                status: alertStatus
+            };
+        
+            res.locals.title = 'Master Data | Game';
+            res.locals.currentPage = 'game';
+            res.render('pages/game', { games, user, alert, reqSpecifications, minSpecifications });
+        } catch (error) {
+            console.error('Error:', error);
+            req.flash('alertMsg', error.message);
+            req.flash('alertStatus', 'danger');
+            res.redirect('/game');
+        }        
     },
     store: async (req, res) => {
         try{
