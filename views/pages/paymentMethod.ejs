@@ -119,18 +119,18 @@
       <div class="modal-content">
         <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Create Payment Steps</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form action="/payment-method" method="POST">
           <div class="modal-body">
             <div class="form-group">
-              <label for="name">Name</label>
+              <label class="font-weight-bold" for="name">Name</label>
               <input type="text" name="name" id="name" class="form-control" placeholder="Input name here.." />
             </div>
             <div class="form-group">
-              <label for="paymentSteps">Payment Steps</label>
+              <label class="font-weight-bold" for="paymentSteps">Payment Steps</label>
               <input type="hidden" name="paymentSteps" id="paymentSteps" class="form-control"
                 placeholder="Input your payment steps here.." wrap="hard">
                 <trix-editor input="paymentSteps" placeholder="Input your payment steps here.."></trix-editor>
@@ -151,18 +151,18 @@
       <div class="modal-content">
         <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Update Payment Method</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form id="updatePayment" action="/payment-method?_method=put" method="post">
           <div class="modal-body">
             <div class="form-group">
-              <label for="name">Name</label>
+              <label class="font-weight-bold" for="name">Name</label>
               <input type="text" name="name" id="name" class="form-control paymentName" placeholder="Input name here.." />
             </div>
             <div class="form-group">
-              <label for="paymentSteps">Payment Steps</label>
+              <label class="font-weight-bold" for="paymentSteps">Payment Steps</label>
               <input type="hidden" name="paymentSteps" id="paySteps" class="form-control"
                 placeholder="Input your payment steps here..">
                 <trix-editor input="paymentSteps" class="payment-steps" placeholder="Input your payment steps here.."></trix-editor>
