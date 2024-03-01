@@ -15,8 +15,80 @@
             </button> -->
             </div>
         <% } %>
-
-        <div class="card-dashboard"></div>
+        <div class="row">
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Data Game</div>
+                            <div class="h5 mb-2 font-weight-bold text-gray-800">Total: <span><%= countGame %></span>
+                            </div>
+                            <a href="/game" class="btn btn-sm btn-info"> Show</a>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-gamepad fa-2x text-info"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Data Billing</div>
+                            <div class="h5 mb-2 font-weight-bold text-gray-800">Total: <span><%= countBilling %></span>
+                            </div>
+                            <a href="/billing" class="btn btn-sm btn-info"> Show</a>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Data News</div>
+                            <div class="h5 mb-2 font-weight-bold text-gray-800">Total: <span><%= countNews %></span>
+                            </div>
+                            <a href="/news" class="btn btn-sm btn-info"> Show</a>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-newspaper fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Data Cart</div>
+                            <div class="h5 mb-2 font-weight-bold text-gray-800">Total: <span><%= countCart %></span>
+                            </div>
+                            <a href="/cart" class="btn btn-sm btn-info"> Show</a>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-shopping-bag fa-2x text-danger"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
     </div>
     <!-- /.container-fluid -->
 <script>
