@@ -62,6 +62,7 @@ router.delete('/feature/:id', featureController.delete);
 
 //==== Router Game 
 router.get('/game', gameController.index);
+router.get('/search-game', gameController.search);
 router.post('/game', upload, gameController.store);
 
 //==== Router Library
@@ -69,6 +70,7 @@ router.get('/library', libraryController.index);
 
 //==== Router News
 router.get('/news', newsController.index);
+router.get('/search-news', newsController.search);
 router.post('/news', upload, newsController.store);
 router.put('/news', upload, newsController.update);
 router.delete('/news/:id', newsController.delete);
