@@ -16,21 +16,44 @@ module.exports = {
         res.render('pages/about', {about, alert, user});
     },
     store: async (req, res) => {
-        const {corporateName,location,description,address,phone} = req.body;
-        // console.log({corporateName,location,description,address,phone});
-        await About.create({corporateName,location,description,address,phone});
-        res.redirect('/about');
+        try{
+            const {corporateName,location,description,address,phone} = req.body;
+            // console.log({corporateName,location,description,address,phone});
+            // console.log(req.body);
+            await About.create({
+                corporateName,
+                location,
+                description,
+                address,
+                phone
+            });
+            req.flash('alertMsg', 'Done, your data has been saved.');
+            req.flash('alertStatus', 'success');
+            res.redirect('/about');
+        } catch(error){
+            req.flash('alertMsg', error.message)
+            req.flash('alertStatus', 'danger');
+            res.redirect('/about');
+        }
     },
     update: async (req, res) => {
-        const{id,corporateName, location, description, address, phone} = req.body;
-        await About.updateOne({_id:id}, {
-            corporateName: corporateName,
-            location: location,
-            description: description,
-            address: address,
-            phone: phone
-        });
-        res.redirect('/about');
+        try{
+            const{id, corporateName, location, description, address, phone} = req.body;
+            await About.updateOne({_id:id}, {
+                corporateName: corporateName,
+                location: location,
+                description: description,
+                address: address,
+                phone: phone
+            });
+            req.flash('alertMsg', 'Done, your data has been saved.');
+            req.flash('alertStatus', 'success');
+            res.redirect('/about');
+        } catch(error){
+            req.flash('alertMsg', error.message)
+            req.flash('alertStatus', 'danger');
+            res.redirect('/about');
+        }
     },
     delete: async (req, res) => {
         const{id} = req.params;

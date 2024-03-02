@@ -24,12 +24,6 @@
       </div>
       <div class="card-body">
         <div class="text-right mb-3">
-          <!-- <button class="btn btn-info btn-icon-split btn-sm">
-            <span class="icon text-white-50">
-              <i class="fas fa-pen-square"></i>
-            </span>
-            <span class="text">Edit</span>
-          </button> -->
           <button type="button" class="btn btn-info btn-sm btn-icon-split" data-toggle="modal" data-target="#createAbout">
             <span class="icon text-white-50">
               <i class="fas fa-plus-square"></i>
@@ -37,7 +31,7 @@
             <span class="text">New Data</span>
           </button>
         </div>
-        <!-- <div class="row mb-2">
+        <div class="row mb-2">
           <div class="col-md-6">
             <% for (let i=0; i<about.length; i++) { %>
               <h6 class="m-0 font-weight-bold text-dark">Corporate Name</h6>
@@ -52,7 +46,7 @@
               <hr>
               <h6 class="m-0 font-weight-bold text-dark">Description</h6>
               <div class="mt-2">
-                <%= about[i].description %>
+                <%- about[i].description %>
               </div>
               <hr>
               <h6 class="m-0 font-weight-bold text-dark">Contact</h6>
@@ -61,21 +55,44 @@
               <div class="mt-2">Address : 
                 <%= about[i].address %> </div>
               <hr>
+              <div class="mb-2">
+                <button class="btn btn-info btn-icon-split btn-sm btn-edit"
+                    data-company = "<%= about[i].corporateName  %>"
+                    data-location = "<%= about[i].location  %>"
+                    data-desc = "<%= about[i].description  %>"
+                    data-address = "<%= about[i].address %>"
+                    data-hp = "<%= about[i].phone %>"
+                    data-id = "<%= about[i]._id %>"
+                >
+                  <span class="icon text-white-50">
+                    <i class="fas fa-pen-square"></i>
+                  </span>
+                  <span class="text">Edit</span>
+                </button>
+                <button class="btn btn-danger btn-icon-split btn-sm btn-delete"
+                data-id = "<%= about[i]._id %>"
+                >
+                  <span class="icon text-white-50">
+                    <i class="fas fa-trash"></i>
+                  </span>
+                  <span class="text">Delete</span>
+                </button>
+              </div>
               <% } %>
-          </div>
-          <div class="col-md-6 bg-info d-flex justify-content-center align-items-center p-3">
+            </div>
+          <div class="col-md-6 text-center">
             <style>
               .cover-about {
                 height: 100px;
                 width: auto;
-                border-radius: 5%;
                 object-fit: contain;
+                background-color: blueviolet;
               }
             </style>
-            <img class="cover-about" src="/images/logo.png" alt="">
+              <img class="p-2 cover-about" src="/images/logo.png" alt="">
           </div>
-        </div> -->
-        <div class="table-responsive">
+        </div>
+        <!-- <div class="table-responsive">
           <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
@@ -130,7 +147,7 @@
                 <% } %>
             </tbody>
           </table>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -139,37 +156,39 @@
   <div class="modal fade" id="createAbout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Create About</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form action="/about" method="POST">
           <div class="modal-body">
             <div class="form-group">
-              <label for="corporateName">Corporate Name</label>
+              <label class="font-weight-bold" for="corporateName">Corporate Name</label>
               <input type="text" name="corporateName" id="corporateName" class="form-control"
-                placeholder="Input corporate name here.." />
+                placeholder="corporate name.." />
+            </div>
+            <div class="row-cols-2">
+              <div class="form-group">
+                <label class="font-weight-bold" for="location">Location</label>
+                <input type="text" name="location" id="location" class="form-control"
+                placeholder="corporate location.." />
+              </div>
+              <div class="form-group">
+                <label class="font-weight-bold" for="phone">Phone</label>
+                <input type="text" name="phone" id="phone" class="form-control" placeholder="corporate phone.." />
+              </div>
             </div>
             <div class="form-group">
-              <label for="location">Location</label>
-              <input type="text" name="location" id="location" class="form-control"
-                placeholder="Input location here.." />
-            </div>
-            <div class="form-group">
-              <label for="description">Description</label>
+              <label class="font-weight-bold" for="description">Description</label>
               <textarea type="text" name="description" id="description" class="form-control"
-                placeholder="Input your description here.."></textarea>
+                placeholder="corporate description.. "></textarea>
             </div>
             <div class="form-group">
-              <label for="address">Address</label>
+              <label class="font-weight-bold" for="address">Address</label>
               <input type="text" name="address" id="address" class="form-control"
-                placeholder="Input your address here.." />
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone</label>
-              <input type="text" name="phone" id="phone" class="form-control" placeholder="Input your phone here.." />
+                placeholder="corporate address.." />
             </div>
           </div>
           <div class="modal-footer">
@@ -188,35 +207,37 @@
       <div class="modal-content">
         <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Update About</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="/about?_method=put" method="post">
+        <form id="updateAbout" action="/about?_method=put" method="post">
           <div class="modal-body">
             <div class="form-group">
-              <label for="corporateName">Corporate Name</label>
+              <label class="font-weight-bold" for="corporateName">Corporate Name</label>
               <input type="text" name="corporateName" id="corporateName" class="form-control corporate"
-                placeholder="Input corporate name here.." />
+                placeholder="corporate name.." />
             </div>
             <div class="form-group">
-              <label for="location">Location</label>
+              <label class="font-weight-bold" for="location">Location</label>
               <input type="text" name="location" id="location" class="form-control spot"
-                placeholder="Input location here.." />
+                placeholder="corporate location.." />
             </div>
             <div class="form-group">
-              <label for="description">Description</label>
-              <textarea type="text" name="description" id="description" class="form-control desc"
-                placeholder="Input your description here.."></textarea>
+              <label class="font-weight-bold" for="description">Description</label>
+              <!-- <textarea type="text" name="description" id="description" class="form-control desc"
+                placeholder="corporate description.."></textarea> -->
+              <input type="hidden" name="description" id="descCorporate" class="form-control desc">
+                <trix-editor input="descCorporate" class="desc" placeholder="corporate description."></trix-editor>
             </div>
             <div class="form-group">
-              <label for="address">Address</label>
+              <label class="font-weight-bold" for="address">Address</label>
               <input type="text" name="address" id="address" class="form-control street"
-                placeholder="Input your address here.." />
+                placeholder="corporate address.." />
             </div>
             <div class="form-group">
-              <label for="phone">Phone</label>
-              <input type="text" name="phone" id="phone" class="form-control telephone" placeholder="Input your phone here.." />
+              <label class="font-weight-bold" for="phone">Phone</label>
+              <input type="text" name="phone" id="phone" class="form-control telephone" placeholder="corporate phone.." />
             </div>
             <div class="form-group">
               <input type="hidden" name="id" class="id-about" id="id">
@@ -256,7 +277,7 @@
   
   <script>
     // edit
-    $('#dataTable').on('click', '.btn-edit', function() {
+    $('.btn-edit').on('click', function() {
       $('#editAbout').modal('show');
       let company = $(this).data('company');
       let locale = $(this).data('location');
@@ -268,6 +289,7 @@
       $('.spot').val(locale);
       $('.desc').val(desc);
       $('.street').val(street);
+
       $('.telephone').val(hphone);
       $('.id-about').val(id);
     });
@@ -287,6 +309,15 @@
           $('.alert').fadeOut('slow');
         }, 3000);
       }
+    });
+    // trix-editor
+    $(document).ready(function(){
+      $('#updateAbout').submit(function(event) {
+        // Ambil konten HTML dari Trix Editor
+        const descriptionCorporate = $('.desc').val();
+        // Masukkan konten HTML ke dalam input tersembunyi
+        $('#descCorporate').val(descriptionCorporate);
+      })
     });
   </script>
   <%- include('../components/bottom.ejs') %>
