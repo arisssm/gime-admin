@@ -3,6 +3,13 @@ const express = require('express');
 const router = express.Router();
 const apiController = require('../controller/ApiController');
 const { tokenJWT } = require('../middlewares/auth');
+
+//===access for other port
+router.use((req, res, next) =>{
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-with, content-type');
+    next();
+});
 // ===register
 router.post('/register', apiController.addRegister);
 // ===login

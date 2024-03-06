@@ -38,7 +38,6 @@
                 <th>No</th>
                 <th>Question</th>
                 <th>Answer</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -51,14 +50,17 @@
                     <%= faq[i].question %>
                   </td>
                   <td>
-                    <%= faq[i].answer %>
+                    <%- faq[i].answer %>
                   </td>
-                  <td>
-                    <button class="btn btn-info btn-circle btn-sm btn-edit" data-question="<%= faq[i].question %>"
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    Action: 
+                    <button class="btn btn-info btn-circle btn-sm btn-edit" title="Edit" data-question="<%= faq[i].question %>"
                       data-answer="<%= faq[i].answer  %>" data-id="<%= faq[i]._id  %>">
                       <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-danger btn-circle btn-sm btn-delete mx-1" data-id="<%= faq[i]._id %>">
+                    <button class="btn btn-danger btn-circle btn-sm btn-delete"title="Delete" data-id="<%= faq[i]._id %>">
                       <i class="fas fa-trash"></i>
                     </button>
                   </td>
@@ -76,23 +78,25 @@
   <div class="modal fade" id="createFaq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-info text-white
           <h5 class="modal-title" id="exampleModalLabel">Create FAQ</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form action="/faq" method="POST">
           <div class="modal-body">
             <div class="form-group">
-              <label for="question">Question</label>
+              <label class="font-weight-bold" for="question">Question</label>
               <input type="text" name="question" id="question" class="form-control" placeholder="Input question here.."
                 autocomplete="off" />
             </div>
             <div class="form-group">
-              <label for="answer">Answer</label>
-              <textarea type="text" name="answer" id="answer" class="form-control"
-                placeholder="Input your answer here.." autocomplete="off"></textarea>
+              <label class="font-weight-bold" for="answer">Answer</label>
+              <!-- <textarea type="text" name="answer" id="answer" class="form-control"
+                placeholder="Input your answer here.." autocomplete="off"></textarea> -->
+              <Input type="hidden" name="answer" id="answerFaq">
+              <trix-editor input="answerFaq" placeholder="Input answer.."></trix-editor>
             </div>
           </div>
           <div class="modal-footer">
@@ -104,26 +108,28 @@
   </div>
 
   <!-- Modal Edit -->
-  <div class="modal fade" id="editFaq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="updateFaq" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Update FAQ</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form action="/faq?_method=put" method="post">
           <div class="modal-body">
             <div class="form-group">
-              <label for="question">Question</label>
+              <label class="font-weight-bold" for="question">Question</label>
               <input type="text" name="question" id="question" class="form-control question"
                 placeholder="Input question here.." autocomplete="off" />
             </div>
             <div class="form-group">
-              <label for="answer">Answer</label>
-              <textarea type="text" name="answer" id="answer" class="form-control answer"
-                placeholder="Input your answer here.." autocomplete="off"></textarea>
+              <label class="font-weight-bold" for="answer">Answer</label>
+              <!-- <textarea type="text" name="answer" id="answer" class="form-control answer"
+                placeholder="Input your answer here.." autocomplete="off"></textarea> -->
+              <Input type="hidden" name="answer" id="updateAnswer">
+              <trix-editor input="updateAnswer" class="answer" placeholder="Input answer.."></trix-editor>
             </div>
             <div class="form-grup">
               <input type="hidden" class="id-faq form-control" name="id">
@@ -166,11 +172,11 @@
   <script>
     // edit data
     $('#dataTable').on('click', '.btn-edit', function () {
-      $('#editFaq').modal('show');
+      $('#updateFaq').modal('show');
       let question = $(this).data('question');
       let answer = $(this).data('answer');
       let id = $(this).data('id');
-      // console.log(id);
+      console.log(answer);
       $('.question').val(question);
       $('.answer').val(answer);
       $('.id-faq').val(id);
@@ -191,6 +197,14 @@
           $('.alert').fadeOut('slow');
         }, 3000);
       }
+    });
+
+    // trix editor
+    $(document).ready(function(){
+      $('#updateFaq').submit(function(event){
+        const answerFaq = $('.answer').val();
+        $('#updateAnswer').val(answerFaq);
+      });
     });
   </script>
   <%- include('../components/bottom.ejs') %>

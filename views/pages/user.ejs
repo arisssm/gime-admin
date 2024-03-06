@@ -32,46 +32,51 @@
           </button>
         </div>
         <div class="table-responsive">
-          <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
-            <thead>
+          <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+            <thead class="bg-light">
               <tr>
                 <th>No</th>
                 <th>Full Name</th>
+                <th>Role</th>
                 <th>Phone</th>
+                <th>Username</th>
                 <th>Email</th>
                 <th>Password</th>
-                <th>Username</th>
               </tr>
             </thead>
             <tbody>
               <% for( let i = 0; i <user.length; i++ ) { %>
                 <tr>
                   <td><%= i+1 %></td>
-                  <td><%= user[i].fullName %></td>
+                  <td class="font-weight-bold"><%= user[i].fullName %></td>
+                  <td><%= user[i].role %></td>
                   <td><%= user[i].phone %></td>
+                  <td class="font-italic"><%= user[i].username %></td>
                   <td><%= user[i].email %></td>
                   <td><%= user[i].password %></td>
-                  <td><%= user[i].username %></td>
                 </tr>
-                <tr>
-                  <td colspan="6">
-                    <button class="btn btn-info btn-sm btn-edit"
-                    data-name = "<%= user[i].fullName %>"
-                    data-telephone = "<%= user[i].phone %>"
-                    data-email = "<%= user[i].email %>"
-                    data-password = "<%= user[i].password %>"
-                    data-username = "<%= user[i].username %>"
-                    data-id = "<%= user[i]._id  %>"
-                    >
-                    <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-danger btn-sm btn-delete"
-                    data-id = "<%= user[i]._id  %>"
-                    >
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
+                <% if (user[i].role == 'admin') { %>
+                  <tr>
+                    <td colspan="6">
+                      Action:
+                      <button class="btn btn-info btn-circle btn-sm btn-edit"
+                      data-name = "<%= user[i].fullName %>"
+                      data-telephone = "<%= user[i].phone %>"
+                      data-email = "<%= user[i].email %>"
+                      data-password = "<%= user[i].password %>"
+                      data-username = "<%= user[i].username %>"
+                      data-id = "<%= user[i]._id  %>"
+                      >
+                      <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="btn btn-danger btn-circle btn-sm btn-delete"
+                      data-id = "<%= user[i]._id  %>"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                <% } %>
               <% } %>
             </tbody>
           </table>
@@ -84,36 +89,36 @@
   <div class="modal fade" id="createUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Create User</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form action="/user" method="post">
           <div class="modal-body">
             <div class="form-group">
-              <label for="fullName">Full Name</label>
+              <label class="font-weight-bold" class="font-weight-bold" for="fullName">Full Name</label>
               <input type="text" name="fullName" id="fullName" class="form-control"
-                placeholder="Input full name here.." />
+                placeholder="Input full name.." />
             </div>
             <div class="form-group">
-              <label for="phone">Phone</label>
-              <input type="text" name="phone" id="phone" class="form-control" placeholder="Input phone here.." />
+              <label class="font-weight-bold" for="phone">Phone</label>
+              <input type="text" name="phone" id="phone" class="form-control" placeholder="Input phone.." />
             </div>
             <div class="form-group">
-              <label for="email">Email</label>
-              <input type="text" name="email" id="email" class="form-control" placeholder="Input email here.." />
+              <label class="font-weight-bold" class="font-weight-bold" for="email">Email</label>
+              <input type="text" name="email" id="email" class="form-control" placeholder="Input email.." />
             </div>
             <div class="form-group">
-              <label for="password">Password</label>
+              <label class="font-weight-bold" class="font-weight-bold" for="password">Password</label>
               <input type="text" name="password" id="password" class="form-control"
-                placeholder="Input password here.." />
+                placeholder="Input password.." />
             </div>
             <div class="form-group">
-              <label for="password">Username</label>
+              <label class="font-weight-bold" class="font-weight-bold" for="password">Username</label>
               <input type="text" name="username" id="username" class="form-control"
-                placeholder="Input password here.." />
+                placeholder="Input password.." />
             </div>
           </div>
           <div class="modal-footer">
@@ -132,34 +137,34 @@
       <div class="modal-content">
         <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form action="/user?_method=put" method="post">
           <div class="modal-body">
             <div class="form-group">
-              <label for="fullName">Full Name</label>
+              <label class="font-weight-bold" for="fullName">Full Name</label>
               <input type="text" name="fullName" id="fullName" class="form-control name"
-                placeholder="Input full name here.." />
+                placeholder="Input full name.." />
             </div>
             <div class="form-group">
-              <label for="phone">Phone</label>
-              <input type="text" name="phone" id="phone" class="form-control telePhone" placeholder="Input phone here.." />
+              <label class="font-weight-bold" for="phone">Phone</label>
+              <input type="text" name="phone" id="phone" class="form-control telePhone" placeholder="Input phone.." />
             </div>
             <div class="form-group">
-              <label for="email">Email</label>
-              <input type="text" name="email" id="email" class="form-control emailUser" placeholder="Input phone here.." />
+              <label class="font-weight-bold" for="email">Email</label>
+              <input type="text" name="email" id="email" class="form-control emailUser" placeholder="Input email.." />
             </div>
             <div class="form-group">
-              <label for="password">Password</label>
+              <label class="font-weight-bold" for="password">Password</label>
               <input type="text" name="password" id="password" class="form-control passWord"
-                placeholder="Input password here.." />
+                placeholder="Input password.." />
             </div>
             <div class="form-group">
-              <label for="password">Username</label>
+              <label class="font-weight-bold" for="password">Username</label>
               <input type="text" name="username" id="username" class="form-control userName"
-                placeholder="Input password here.." />
+                placeholder="Input username.." />
             </div>
             <div class="form-group">
               <input type="hidden" name="id" id="id" class="id-user form-control">

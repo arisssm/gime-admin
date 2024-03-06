@@ -32,14 +32,13 @@
           </button>
         </div>
         <div class="table-responsive">
-          <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
-            <thead>
+          <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+            <thead class="bg-light">
               <tr>
                 <th>No</th>
                 <th>Feature</th>
                 <th>Image</th>
                 <th>Description</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -55,18 +54,23 @@
                     <img src="/images/<%= feature[i].image %>" width="150vh" alt="">
                   </td>
                   <td>
-                    <%= feature[i].description %>
+                    <%- feature[i].description %>
                   </td>
-                  <td>
-                    <button class="btn btn-info btn-circle btn-sm btn-edit"
+                </tr>
+                <tr>
+                  <td colspan="4">
+                    Action:
+                    <button title="edit" class="btn btn-info btn-circle btn-sm btn-edit"
                       data-feature="<%= feature[i].featureName  %>" 
                       data-image="<%= feature[i].image %>"
                       data-description="<%= feature[i].description %>" 
-                      data-id="<%= feature[i]._id %>">
+                      data-id="<%= feature[i]._id %>"
+                    >
                       <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-danger btn-circle btn-sm btn-delete mx-1" 
-                    data-id="<%= feature[i]._id %>">
+                    <button title="delete" class="btn btn-danger btn-circle btn-sm btn-delete" 
+                      data-id="<%= feature[i]._id %>"
+                    >
                       <i class="fas fa-trash"></i>
                     </button>
                   </td>
@@ -83,27 +87,30 @@
   <div class="modal fade" id="createFeature" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Create Feature</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form action="/feature" method="POST" enctype="multipart/form-data">
           <div class="modal-body">
             <div class="form-group">
-              <label for="featureName">Feature Name</label>
+              <label class="font-weight-bold" for="featureName">Feature Name</label>
               <input type="text" name="featureName" id="featureName" class="form-control"
-                placeholder="Input feature name here.." />
+                placeholder="Input feature name.." />
             </div>
             <div class="form-group">
-              <label for="image">image</label>
-              <input type="file" name="image" id="image" class="form-control" placeholder="Input image here.." />
+              <label class="font-weight-bold" for="image">Image</label>
+              <input type="file" name="image" id="imageFeature" class="form-control image-feature mb-2"/>
+              <img class="pre-image" src="" id="previewImage" alt="preview" width="200vh">
             </div>
             <div class="form-group">
-              <label for="description">Description</label>
-              <textarea type="text" name="description" id="description" class="form-control"
-                placeholder="Input your description here.."></textarea>
+              <label class="font-weight-bold" for="description">Description</label>
+              <!-- <textarea type="text" name="description" id="description" class="form-control"
+                placeholder="Input description.."></textarea> -->
+              <input type="hidden" name="description" id="descriptionFeature" class="form-control description-feature">
+              <trix-editor input="descriptionFeature" placeholder="Input content.."></trix-editor>
             </div>
           </div>
           <div class="modal-footer">
@@ -117,30 +124,35 @@
   </div>
 
   <!-- Modal Edit -->
-  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="editFeature" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Update Feature</h5>
-          <i type="button" class="fas fa-times-circle" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
             <!-- <span aria-hidden="true">&times;</span> -->
           </i>
         </div>
-        <form action="/feature?_method=put" method="post" enctype="multipart/form-data">
+        <form id="updateFeature" action="/feature?_method=put" method="post" enctype="multipart/form-data">
           <div class="modal-body">
             <div class="form-group">
-              <label for="featureName">Feature Name</label>
+              <label class="font-weight-bold" for="featureName">Feature Name</label>
               <input type="text" name="featureName" id="featureName" class="form-control feature"
                 placeholder="Input feature name here.." />
             </div>
             <div class="form-group">
-              <label for="image">Image</label>
-              <input type="file" name="image" id="imageEdit" class="form-control image" />
+              <label class="font-weight-bold" for="image">Image</label>
+              <input type="file" name="image" id="imgFeature" class="form-control image-feature mb-2" />
+              <img class="preview-image" src="" id="previewImg" alt="preview" width="200vh">
             </div>
             <div class="form-group">
-              <label for="description">Description</label>
-              <textarea type="text" name="description" id="description" class="form-control description"
-                placeholder="Input your description here.."></textarea>
+              <label class="font-weight-bold" for="description">Description</label>
+              <!-- <textarea type="text" name="description" id="description" class="form-control description"
+                placeholder="Input your description here.."></textarea> -->
+              <input type="hidden" name="description" id="updateDescription">
+              <trix-editor input="updateDescription" class="feature-description" placeholder="Input content.."></trix-editor>
             </div>
             <div class="form-group">
               <input type="hidden" class="form-control id-feature" id="id" name="id">
@@ -177,18 +189,28 @@
     </div>
   </div>
   <script>
+    // create data
+    $('#createFeature').on('click', function(){
+      let img = $(this).data('image');
+      let imgUrl = "/images/" + img;
+      $('.pre-image').attr('src', imgUrl);
+    });
     // data edit
     $('#dataTable').on('click', '.btn-edit', function () {
-      $('#editModal').modal('show');
+      $('#editFeature').modal('show');
       let feature = $(this).data('feature');
       // let img = $(this).data('image');
       let desc = $(this).data('description');
       let idfeature = $(this).data('id');
-      console.log(idfeature);
+      // console.log(idfeature);
       $('.feature').val(feature);
       // $('.image').val(img);
-      $('.description').val(desc);
+      $('.feature-description').val(desc);
       $('.id-feature').val(idfeature);
+      // 
+      let img = $(this).data('image');
+      let imgUrl = "/images/" + img;
+      $('.preview-image').attr('src', imgUrl);
     });
 
     // hapus
@@ -207,6 +229,41 @@
           $('.alert').fadeOut('slow');
         }, 9000);
       }
+    });
+    // display image
+    $('#imgFeature').change(function(event) {
+      const file = event.target.files[0];
+       // ambil target gambar setelah di pilih
+      const reader = new FileReader(); // objek untuk membaca berkas gambar sebagai url data
+      reader.onload = function(e) { // (e)= event listener untuk FileReader selesai membaca berkas
+          $('#previewImg').attr('src', e.target.result); // e.target.result : fungsi jqueury utk menetapkan target sebagai url
+      };
+      reader.readAsDataURL(file); // fungsi jquery utk membaca berkas gambar sebagai URL data
+    });
+
+    $('#imageFeature').change(function(event) {
+      const file = event.target.files[0];
+       // ambil target gambar setelah di pilih
+      const reader = new FileReader(); // objek untuk membaca berkas gambar sebagai url data
+      reader.onload = function(e) { // (e)= event listener untuk FileReader selesai membaca berkas
+          $('#previewImage').attr('src', e.target.result); // e.target.result : fungsi jqueury utk menetapkan target sebagai url
+      };
+      reader.readAsDataURL(file); // fungsi jquery utk membaca berkas gambar sebagai URL data
+    });
+    // trix editor
+    $(document).ready(function(){
+      // $('#createFeature').submit(function(event) {
+      //   // Ambil nilai text dari Trix Editor
+      //   const featureDescription = $('.feature-description').val();
+      //   // Masukkan nilai text ke dalam input tersembunyi
+      //   $('#descriptionFeature').val(featureDescription);
+      // });
+      $('#updateFeature').submit(function(event) {
+        // Ambil nilai text dari Trix Editor
+        const featureDescription = $('.feature-description').val();
+        // Masukkan nilai text ke dalam input tersembunyi
+        $('#updateDescription').val(featureDescription);
+      });
     });
   </script>
   <%- include('../components/bottom.ejs') %>

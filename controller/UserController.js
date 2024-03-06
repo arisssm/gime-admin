@@ -30,13 +30,22 @@ module.exports = {
         res.locals.title = 'Master Data | User';
         res.locals.currentPage = 'user';
         const user = await User.find();
+        const listUser = user.filter(user => user.role === 'admin');
+        listUser.sort((a, b) => {
+            if (a.name && b.name) {
+                return a.name.localeCompare(b.name);
+            } else {
+                return 0;
+            }
+        });
+        const sortUser = [...listUser, ...user.filter(user => user.role !== 'admin')];
         const alertMsg = req.flash('alertMsg');
         const alertStatus = req.flash('alertStatus');
         const alert = {
             message: alertMsg,
             status: alertStatus
         };
-        res.render('pages/user', {user, alert});
+        res.render('pages/user', {user: sortUser, alert});
     },
     
     store: async (req, res) => {

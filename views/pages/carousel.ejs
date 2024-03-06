@@ -39,7 +39,6 @@
                 <th>Cover Image</th>
                 <th>Title</th>
                 <th>Description</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -55,9 +54,11 @@
                     <%= carousel[i].title %>
                   </td>
                   <td>
-                    <%= carousel[i].description%>
+                    <%- carousel[i].description%>
                   </td>
-                  <td class="d-flex">
+                 <tr>
+                  <td colspan="4">
+                    Action:
                     <button 
                     class="btn btn-info btn-circle btn-sm btn-edit"
                     data-cover = "<%= carousel[i].image  %>"
@@ -73,6 +74,7 @@
                       <i class="fas fa-trash"></i>
                     </button>
                   </td>
+                 </tr>
                 </tr>
                 <% } %>
             </tbody>
@@ -87,26 +89,28 @@
   <div class="modal fade" id="createCarousel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Create Carousel</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form action="/carousel" method="post" enctype="multipart/form-data">
           <div class="modal-body">
             <div class="form-group">
-              <label for="image">Cover Image</label>
-              <input type="file" name="image" id="image" class="form-control" placeholder="Input here.." />
+              <label class="font-weight-bold" for="image">Cover Image</label>
+              <input type="file" name="image" id="image" class="form-control"/>
             </div>
             <div class="form-group">
-              <label for="title">Title</label>
-              <input type="text" name="title" id="title" class="form-control" placeholder="Input your title here..">
+              <label class="font-weight-bold" for="title">Title</label>
+              <input type="text" name="title" id="title" class="form-control" placeholder="Input title..">
             </div>
             <div class="form-group">
-              <label for="image">Description</label>
-              <textarea type="text" name="description" id="description" class="form-control"
-                placeholder="Input your description here.."></textarea>
+              <label class="font-weight-bold" for="image">Description</label>
+              <!-- <textarea type="text" name="description" id="description" class="form-control"
+                placeholder="Input description.."></textarea> -->
+              <Input type="hidden" name="description" id="descriptionSLide">
+              <trix-editor input="descriptionSLide" placeholder="Input answer.."></trix-editor>
             </div>
           </div>
           <div class="modal-footer">
@@ -121,29 +125,31 @@
   </div>
 
   <!-- Modal Edit -->
-  <div class="modal fade" id="editCarousel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="updateCarousel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header bg-info text-white">
           <h5 class="modal-title" id="exampleModalLabel">Update Carousel</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form action="/carousel?_method=put" method="post" enctype="multipart/form-data">
           <div class="modal-body">
             <div class="form-group">
-              <label for="image">Cover Image</label>
+              <label class="font-weight-bold" for="image">Cover Image</label>
               <input type="file" name="image" id="image" class="form-control cover" placeholder="Input here.." />
             </div>
             <div class="form-group">
-              <label for="title">Title</label>
+              <label class="font-weight-bold" for="title">Title</label>
               <input type="text" name="title" id="title" class="form-control title-cover" placeholder="Input your title here..">
             </div>
             <div class="form-group">
-              <label for="image">Description</label>
-              <textarea type="text" name="description" id="description" class="form-control desc"
-                placeholder="Input your description here.."></textarea>
+              <label class="font-weight-bold" for="image">Description</label>
+              <!-- <textarea type="text" name="description" id="description" class="form-control desc"
+                placeholder="Input your description here.."></textarea> -->
+              <Input type="hidden" name="description" id="updateDescription">
+              <trix-editor input="updateDescription" class="description-update" placeholder="Input description.."></trix-editor>
             </div>
             <div class="form-group">
               <input type="hidden" name="id" id="id" class="id-carousel">
@@ -184,14 +190,14 @@
   <script>
     // edit
     $('#dataTable').on('click', '.btn-edit', function() {
-      $('#editCarousel').modal('show');
+      $('#updateCarousel').modal('show');
       // let imgCover = $(this).data('cover');
       let titleCover = $(this).data('title');
       let desc = $(this).data('desc');
       let id = $(this).data('id');
       // $('.cover').val(imgCover);
       $('.title-cover').val(titleCover);
-      $('.desc').val(desc);
+      $('.description-update').val(desc);
       $('.id-carousel').val(id);
     });
     // delete
@@ -209,6 +215,14 @@
           $('.alert').fadeOut('slow');
         }, 3000);
       }
+    });
+
+     // trix editor
+     $(document).ready(function(){
+      $('#updateCarousel').submit(function(event){
+        const updateDesc = $('.description-update').val();
+        $('#updateDescription').val(updateDesc);
+      });
     });
   </script>
   <%- include('../components/bottom.ejs') %>

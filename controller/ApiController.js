@@ -18,14 +18,14 @@ module.exports = {
     addRegister: async (req, res) => {
         try{
             const {fullName, phone, email, password, username} = req.body;
-            await User.create({fullName, phone, email, password, username, role:'admin'});
+            await User.create({fullName, phone, email, password, username, role:'customer'});
             res.status(200).json({message: 'Success, your has been regster!'});
             // console.log(req.body);
         } catch(error){
             res.status(400).json({message: 'Please check again your code!'});
         }
     },
-    postLogin: async (req, res) => {
+    postLogin: async (req, res) => {        
         try{
             const { username, password } = req.body;
             const user = await User.findOne({username: username});
