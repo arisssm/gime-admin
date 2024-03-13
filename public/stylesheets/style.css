@@ -13,7 +13,7 @@ a {
 }
 
 .bg-body-login{
-  background: url('https://w0.peakpx.com/wallpaper/235/312/HD-wallpaper-calm-ocean-and-blue-sky-ultra-background-for-u-tv-widescreen-ultrawide-laptop-blue-sky-and-sea.jpg');
+  background: url('https://wallpaperaccess.com/full/2067979.png');
   background-size: cover;
 
 }
@@ -59,6 +59,6 @@ a {
   background: url('https://www.24-horas.mx/wp-content/uploads/2023/11/MEDIDAS-PARA-WEB-92.png?w=1200');
   background-position: center;
 }
-.shadow-card-login{
-  box-shadow: 0 6px 16px rgb(188, 224, 28);
-}
+/* .shadow-card-login{
+  box-shadow: 0 6px 16px #e7ebd9;
+} */

@@ -2,42 +2,46 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
         <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Cart</h1>
+        <!-- <h1 class="h3 mb-4 text-gray-800">Cart</h1> -->
         <!-- Tables -->
+        <div class="row-12">
+            <% if (alert.message != '') { %>
+                <div class="alert alert-<%= alert.status %>" role="alert">
+                <%- alert.status == 'success' ?
+                `<i class="fa fa-check-square mr-2"></i>`:  
+                `<i class="fa fa-exclamation-triangle" ></i>`  
+                %>
+                <%= alert.message %>
+                <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> -->
+                </div>
+            <% } %>
+        </div>
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Cart Shopping</h6>
+            <div class="card-header text-white bg-gradient-card py-3">
+                <h6 class="m-0 font-weight-bold">Cart Shopping</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
+                    <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-light">
                             <tr>
                                 <th>Cart ID</th>
                                 <th>Game Name</th>
                                 <th>Price</th>
-                                <th>qty</th>
+                                <th>Customer</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Tiger Nixon</td>
-                                <td>$320,800</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Tiger Nixon</td>
-                                <td>$320,800</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Tiger Nixon</td>
-                                <td>$320,800</td>
-                                <td>1</td>
-                            </tr>
+                            <% for( let ix = 0; ix < cart.length; ix++ ) { %>
+                                <tr>
+                                    <td><%= cart[ix]._id %></td>
+                                    <td><%= cart[ix].gameId.name %></td>
+                                    <td><%= cart[ix].gameId.price %></td>
+                                    <td><%= cart[ix].userId ? cart[ix].userId.fullName : '' %></td>
+                                </tr>
+                            <% } %>
                         </tbody>
                     </table>
                 </div>
